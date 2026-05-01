@@ -158,6 +158,13 @@ function App() {
     fileInputRef.current?.click()
   }
 
+  const openGuide = () => {
+    setSlideIndex(0)
+    setOverlaySlideIndex(null)
+    setOverlayMode(null)
+    setShowGuide(true)
+  }
+
   const closeGuide = () => {
     setShowGuide(false)
     setOverlaySlideIndex(null)
@@ -328,7 +335,7 @@ function App() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button variant="primary" onClick={() => setShowGuide(true)} className="sm:px-6">
+              <Button variant="primary" onClick={openGuide} className="sm:px-6">
                 How to get your data
               </Button>
               <Button
