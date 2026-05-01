@@ -26,7 +26,7 @@ const slides: Slide[] = [
     accent: 'from-[#feda75] via-[#fa7e1e] to-[#d62976]',
   },
   {
-    title: 'Upload the ZIP privately',
+    title: 'Load the ZIP privately',
     description:
       'Drop the export ZIP into the app. The archive never leaves your device and everything is parsed in-browser.',
     accent: 'from-[#c13584] via-[#e1306c] to-[#fd1d1d]',
@@ -210,7 +210,7 @@ function App() {
             </p>
           </div>
           <div className="self-start rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-left text-[11px] font-medium leading-tight text-slate-500 shadow-sm sm:px-4 sm:text-xs md:max-w-[18rem]">
-            No backend • No login • No tracking • All local
+            No login • No tracking • No data stored
           </div>
         </header>
 
@@ -218,27 +218,27 @@ function App() {
           <section className="space-y-6 rounded-[2.25rem] border border-white/80 bg-white/75 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8 lg:sticky lg:top-6">
             <div className="space-y-4">
               <div className="inline-flex rounded-full border border-[#e1306c]/15 bg-[#e1306c]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-[#e1306c]">
-                Privacy-first tool
+                Private by design
               </div>
               <h1 className="max-w-xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-                See who follows you back, who does not, and who you miss.
+                See who follows you back–and who doesn’t
               </h1>
               <p className="max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
-                Upload your Instagram ZIP export, extract the follower data in your browser, and
-                get a clear relationship breakdown in seconds.
+                Load your Instagram data and get a clear follower breakdown in seconds.
+                Everything stays on your device.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button variant="primary" onClick={() => setShowGuide(true)} className="sm:px-6">
-                How it works
+                How to get your data
               </Button>
               <Button
                 variant="secondary"
                 onClick={handleBrowse}
                 className="sm:px-6 md:hidden !bg-transparent !shadow-none"
               >
-                Upload ZIP
+                Select ZIP file
               </Button>
               <input
                 ref={fileInputRef}
@@ -317,8 +317,7 @@ function App() {
               </div>
             ) : (
               <div className="rounded-[2rem] border border-dashed border-slate-200 bg-white/80 p-8 text-sm leading-7 text-slate-500 shadow-sm">
-                Once the ZIP is parsed, the No Followback, fans, and mutuals lists will
-                appear here with filters and copy controls.
+                Your results will appear here after you load your data.
               </div>
             )}
           </section>

@@ -109,7 +109,7 @@ export async function analyzeInstagramZip(file: File): Promise<InstagramAnalysis
 
     if (!followerFiles.length || !followingFile) {
         throw new Error(
-            'Missing follower or following files. Make sure you uploaded the Instagram ZIP export with connections/followers_and_following data.',
+            'Missing follower or following files. Make sure you load the Instagram ZIP export with connections/followers_and_following data.',
         )
     }
 

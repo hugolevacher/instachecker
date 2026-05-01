@@ -27,7 +27,7 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
         <div
             role="button"
             tabIndex={0}
-            aria-label="Upload Instagram ZIP"
+            aria-label="Load Instagram ZIP"
             onClick={onBrowse}
             onKeyDown={handleKeyDown}
             onDragOver={(event) => event.preventDefault()}
@@ -37,14 +37,14 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
             <div className="flex h-full flex-col justify-between gap-6">
                 <div className="space-y-3">
                     <div className="inline-flex rounded-full border border-[#e1306c]/15 bg-[#e1306c]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#e1306c]">
-                        Upload ZIP
+                        Load your data
                     </div>
                     <h2 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-                        Drop your Instagram export here
+                        Drop your Instagram ZIP file here
                     </h2>
                     <p className="max-w-xl text-sm leading-6 text-slate-600 sm:text-base">
-                        Everything runs in your browser. No account login, no sync, no server upload.
-                        On desktop you can drag and drop the ZIP or click the button below.
+                        Nothing is uploaded. Your data is processed locally in your browser. Drag
+                        and drop your ZIP file or choose it below.
                     </p>
                 </div>
 
@@ -58,7 +58,7 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
                         disabled={isParsing}
                         className="sm:px-5"
                     >
-                        {isParsing ? 'Parsing archive...' : 'Choose ZIP file'}
+                        {isParsing ? 'Parsing archive...' : 'Select ZIP file'}
                     </Button>
                 </div>
             </div>
