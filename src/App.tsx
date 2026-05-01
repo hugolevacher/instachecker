@@ -20,24 +20,58 @@ const relationshipTabs: Array<{
 
 const slides: Slide[] = [
   {
-    title: 'Download your Instagram data',
+    title: 'Open Instagram settings',
     description:
-      'Request your account export in Instagram settings. Choose the JSON format so the app can read followers and following lists directly.',
-    accent: 'from-[#feda75] via-[#fa7e1e] to-[#d62976]',
+      'Start in Accounts Center and open the section where Instagram lets you access and download your information.',
+    imageSrc: '/images/step_1_information_and_permissions.png',
   },
   {
-    title: 'Load the ZIP privately',
+    title: 'Choose your Instagram data',
     description:
-      'Drop the export ZIP into the app. The archive never leaves your device and everything is parsed in-browser.',
-    accent: 'from-[#c13584] via-[#e1306c] to-[#fd1d1d]',
+      'Pick the profile and information you want to export, then continue to the download flow.',
+    imageSrc: '/images/step_2_export_your_information.png',
   },
   {
-    title: 'Review instant relationship insights',
+    title: 'Create the export',
     description:
-      'See mutuals, fans, and the accounts you do not follow back, with search and copy controls for quick cleanup.',
-    accent: 'from-[#833ab4] via-[#fd1d1d] to-[#fcb045]',
+      'Select the export details and request the archive from Instagram.',
+    imageSrc: '/images/step_3_create_export.png',
+  },
+  {
+    title: 'Send it to your device',
+    description:
+      'Choose to export to the device you are using so the ZIP is easy to download right away.',
+    imageSrc: '/images/step_4_export_to_device.png',
+  },
+  {
+    title: 'Review the options',
+    description:
+      'Keep the default download settings or adjust the format before continuing.',
+    imageSrc: '/images/step_5_select_options.png',
+  },
+  {
+    title: 'Download the ZIP',
+    description:
+      'Confirm the final step and download the archive. Then upload the ZIP into this app.',
+    imageSrc: '/images/step_6_download.png',
   },
 ]
+
+function getGuideDirection(previousIndex: number, nextIndex: number, total: number) {
+  if (previousIndex === nextIndex) {
+    return 0
+  }
+
+  if ((previousIndex + 1) % total === nextIndex) {
+    return 1
+  }
+
+  if ((previousIndex - 1 + total) % total === nextIndex) {
+    return -1
+  }
+
+  return nextIndex > previousIndex ? 1 : -1
+}
 
 async function copyUsernames(usernames: string[]) {
   await navigator.clipboard.writeText(usernames.join('\n'))
@@ -50,6 +84,9 @@ function App() {
   const [isDragging, setIsDragging] = useState(false)
   const [showGuide, setShowGuide] = useState(false)
   const [slideIndex, setSlideIndex] = useState(0)
+  const [overlaySlideIndex, setOverlaySlideIndex] = useState<number | null>(null)
+  const [overlayMode, setOverlayMode] = useState<'enter' | 'exit' | null>(null)
+  const [slideDirection, setSlideDirection] = useState(1)
   const [activeTab, setActiveTab] = useState<RelationshipKey>('notFollowingBack')
   const [searchByTab, setSearchByTab] = useState<Record<RelationshipKey, string>>({
     notFollowingBack: '',
@@ -131,6 +168,51 @@ function App() {
       mutuals: '',
     })
     await analyzeFile(file)
+  }
+
+  const goToPreviousSlide = () => {
+    if (overlaySlideIndex !== null) {
+      return
+    }
+
+    const previousIndex = (slideIndex - 1 + slides.length) % slides.length
+    setSlideDirection(-1)
+    setSlideIndex(previousIndex)
+    setOverlayMode('exit')
+    setOverlaySlideIndex(slideIndex)
+  }
+
+  const goToNextSlide = () => {
+    if (overlaySlideIndex !== null) {
+      return
+    }
+
+    setSlideDirection(1)
+    setOverlayMode('enter')
+    setOverlaySlideIndex((slideIndex + 1) % slides.length)
+  }
+
+  const jumpToSlide = (nextIndex: number) => {
+    if (overlaySlideIndex !== null || nextIndex === slideIndex) {
+      return
+    }
+
+    setSlideDirection(getGuideDirection(slideIndex, nextIndex, slides.length) || slideDirection)
+    setOverlayMode('enter')
+    setOverlaySlideIndex(nextIndex)
+  }
+
+  const handleTransitionEnd = () => {
+    if (overlaySlideIndex === null) {
+      return
+    }
+
+    if (overlayMode === 'enter') {
+      setSlideIndex(overlaySlideIndex)
+    }
+
+    setOverlaySlideIndex(null)
+    setOverlayMode(null)
   }
 
   const handleInputChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -327,10 +409,14 @@ function App() {
       <Modal open={showGuide} title="How to export your Instagram data" onClose={() => setShowGuide(false)}>
         <OnboardingCarousel
           slides={slides}
-          index={slideIndex}
-          onPrevious={() => setSlideIndex((current) => (current - 1 + slides.length) % slides.length)}
-          onNext={() => setSlideIndex((current) => (current + 1) % slides.length)}
-          onJump={setSlideIndex}
+          baseIndex={slideIndex}
+          overlayIndex={overlaySlideIndex}
+          overlayMode={overlayMode}
+          direction={slideDirection}
+          onPrevious={goToPreviousSlide}
+          onNext={goToNextSlide}
+          onJump={jumpToSlide}
+          onTransitionEnd={handleTransitionEnd}
         />
       </Modal>
     </div>
