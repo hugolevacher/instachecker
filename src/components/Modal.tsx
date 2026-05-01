@@ -36,7 +36,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
                 aria-label="Close guide"
                 onClick={onClose}
             />
-            <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl shadow-slate-900/20">
+            <div className="relative z-10 w-fit max-w-[calc(100vw-2rem)] overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl shadow-slate-900/20">
                 <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
@@ -48,7 +48,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
                         Close
                     </Button>
                 </div>
-                <div className="px-5 py-5 sm:px-6 sm:py-6">{children}</div>
+                <div className="px-14 py-10">{children}</div>
             </div>
         </div>
     )

@@ -158,6 +158,13 @@ function App() {
     fileInputRef.current?.click()
   }
 
+  const closeGuide = () => {
+    setShowGuide(false)
+    setOverlaySlideIndex(null)
+    setOverlayMode(null)
+    setSlideIndex(0)
+  }
+
   const handleFileSelected = async (file: File) => {
     reset()
     setActiveTab('notFollowingBack')
@@ -175,7 +182,11 @@ function App() {
       return
     }
 
-    const previousIndex = (slideIndex - 1 + slides.length) % slides.length
+    if (slideIndex === 0) {
+      return
+    }
+
+    const previousIndex = slideIndex - 1
     setSlideDirection(-1)
     setSlideIndex(previousIndex)
     setOverlayMode('exit')
@@ -187,9 +198,14 @@ function App() {
       return
     }
 
+    if (slideIndex === slides.length - 1) {
+      closeGuide()
+      return
+    }
+
     setSlideDirection(1)
     setOverlayMode('enter')
-    setOverlaySlideIndex((slideIndex + 1) % slides.length)
+    setOverlaySlideIndex(slideIndex + 1)
   }
 
   const jumpToSlide = (nextIndex: number) => {
@@ -413,8 +429,11 @@ function App() {
           overlayIndex={overlaySlideIndex}
           overlayMode={overlayMode}
           direction={slideDirection}
+          isFirstSlide={slideIndex === 0}
+          isLastSlide={slideIndex === slides.length - 1}
           onPrevious={goToPreviousSlide}
           onNext={goToNextSlide}
+          onDone={closeGuide}
           onJump={jumpToSlide}
           onTransitionEnd={handleTransitionEnd}
         />
