@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import copy from '../content/copy.json'
 import { Button } from './Button'
+import { Text } from './ui/Text'
 
 type RelationshipSectionProps = {
     usernames: string[]
@@ -47,13 +49,13 @@ export function RelationshipSection({
                     onClick={onCopy}
                     className="px-3 py-2 text-sm"
                 >
-                    {copied ? 'Copied!' : 'Copy'}
+                    {copied ? copy.results.copied : copy.results.copy}
                 </Button>
             </div>
 
             <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <label className="sr-only" htmlFor="relationship-search">
-                    Search accounts
+                    {copy.results.search}
                 </label>
                 <div className="relative">
                     <input
@@ -61,14 +63,14 @@ export function RelationshipSection({
                         type="search"
                         value={searchValue}
                         onChange={(event) => onSearchChange(event.target.value)}
-                        placeholder="Search accounts"
+                        placeholder={copy.results.search}
                         className="w-full min-w-0 bg-transparent pr-10 text-sm text-slate-900 outline-none placeholder:text-slate-400"
                     />
                     {hasQuery ? (
                         <button
                             type="button"
                             onClick={() => onSearchChange('')}
-                            aria-label="Clear search"
+                            aria-label={copy.results.clearSearch}
                             className="absolute right-0 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 transition active:scale-95 hover:border-[#e1306c]/40 hover:text-[#e1306c]"
                         >
                             <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
@@ -109,9 +111,9 @@ export function RelationshipSection({
                             ))}
                         </ul>
                     ) : (
-                        <div className="flex h-full items-center justify-center px-4 py-10 text-center text-sm text-slate-500">
-                            {searchValue ? 'No usernames match your search.' : emptyLabel}
-                        </div>
+                        <Text as="div" variant="muted" className="flex h-full items-center justify-center px-4 py-10 text-center">
+                            {searchValue ? copy.results.noMatches : emptyLabel}
+                        </Text>
                     )}
                 </div>
             </div>

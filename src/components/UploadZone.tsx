@@ -1,5 +1,9 @@
 import type { DragEvent, KeyboardEvent } from 'react'
+import copy from '../content/copy.json'
 import { Button } from './Button'
+import { Badge } from './ui/Badge'
+import { Card, CardBody } from './ui/Card'
+import { Text } from './ui/Text'
 
 type UploadZoneProps = {
     isParsing: boolean
@@ -24,7 +28,9 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
     }
 
     return (
-        <div
+        <Card
+            variant="dashed"
+            padding="none"
             role="button"
             tabIndex={0}
             aria-label="Load Instagram ZIP"
@@ -32,20 +38,17 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
             onKeyDown={handleKeyDown}
             onDragOver={(event) => event.preventDefault()}
             onDrop={handleDrop}
-            className="group cursor-pointer rounded-[2rem] border-2 border-dashed border-slate-200 bg-white/80 p-5 shadow-sm transition hover:border-[#e1306c]/40 hover:bg-white sm:p-6 lg:min-h-[18rem] lg:p-8"
+            className="group cursor-pointer transition hover:border-[#e1306c]/40 hover:bg-white lg:min-h-[18rem]"
         >
-            <div className="flex h-full flex-col justify-between gap-6">
+            <CardBody className="flex h-full flex-col justify-between gap-6 p-5 sm:p-6 lg:p-8">
                 <div className="space-y-3">
-                    <div className="inline-flex rounded-full border border-[#e1306c]/15 bg-[#e1306c]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#e1306c]">
-                        Load your data
-                    </div>
-                    <h2 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
-                        Drop your Instagram ZIP file here
-                    </h2>
-                    <p className="max-w-xl text-sm leading-6 text-slate-600 sm:text-base">
-                        Nothing is uploaded. Your data is processed locally in your browser. Drag
-                        and drop your ZIP file or choose it below.
-                    </p>
+                    <Badge>{copy.upload.eyebrow}</Badge>
+                    <Text as="h2" variant="heading" className="max-w-xl">
+                        {copy.upload.title}
+                    </Text>
+                    <Text as="p" variant="body" className="max-w-xl sm:text-base">
+                        {copy.upload.description}
+                    </Text>
                 </div>
 
                 <div className="flex justify-start">
@@ -58,10 +61,10 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
                         disabled={isParsing}
                         className="sm:px-5"
                     >
-                        {isParsing ? 'Parsing archive...' : 'Select ZIP file'}
+                        {isParsing ? 'Parsing archive...' : copy.upload.select}
                     </Button>
                 </div>
-            </div>
-        </div>
+            </CardBody>
+        </Card>
     )
 }

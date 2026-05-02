@@ -1,56 +1,12 @@
-import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
-import { Button } from './components/Button'
+import { useEffect, useRef, useState, type ChangeEvent } from 'react'
+import copy from './content/copy.json'
 import { Modal } from './components/Modal'
-import { OnboardingCarousel, type Slide } from './components/OnboardingCarousel'
-import { RelationshipSection } from './components/RelationshipSection'
-import { UploadZone } from './components/UploadZone'
+import { OnboardingCarousel } from './components/OnboardingCarousel'
+import { AppHeader } from './features/app/AppHeader'
+import { HeroPanel } from './features/app/HeroPanel'
+import { ResultsPanel } from './features/app/ResultsPanel'
+import type { RelationshipKey } from './features/app/types'
 import { useInstagramAnalyzer } from './hooks/useInstagramAnalyzer'
-
-type RelationshipKey = 'notFollowingBack' | 'fans' | 'mutuals'
-
-const relationshipTabs: Array<{
-  key: RelationshipKey
-  label: string
-  mobileLabel: string
-}> = [
-    { key: 'notFollowingBack', label: 'No Followback', mobileLabel: 'No Followback' },
-    { key: 'fans', label: 'Fans', mobileLabel: 'Fans' },
-    { key: 'mutuals', label: 'Mutuals', mobileLabel: 'Mutuals' },
-  ]
-
-const slides: Slide[] = [
-  {
-    title: 'Open Your Information',
-    description: 'Go to Accounts Center in your settings → Your information and permissions.',
-    imageSrc: '/images/step_1_information_and_permissions.png',
-  },
-  {
-    title: 'Export Your Data',
-    description: 'Tap Export your information.',
-    imageSrc: '/images/step_2_export_your_information.png',
-  },
-  {
-    title: 'Create Export',
-    description: 'Start a new export request.',
-    imageSrc: '/images/step_3_create_export.png',
-  },
-  {
-    title: 'Choose Destination',
-    description: 'Select Export to device.',
-    imageSrc: '/images/step_4_export_to_device.png',
-  },
-  {
-    title: 'Select Data',
-    description:
-      'Choose Followers and following, set Date range to All time, and Format to JSON.',
-    imageSrc: '/images/step_5_select_options.png',
-  },
-  {
-    title: 'Download File',
-    description: 'Once ready, download the ZIP file to your device.',
-    imageSrc: '/images/step_6_download.png',
-  },
-]
 
 function getGuideDirection(previousIndex: number, nextIndex: number, total: number) {
   if (previousIndex === nextIndex) {
@@ -90,33 +46,6 @@ function App() {
   })
   const [copiedTab, setCopiedTab] = useState<RelationshipKey | null>(null)
   const { analysis, error, isParsing, analyzeFile, reset } = useInstagramAnalyzer()
-
-  const sections = useMemo(
-    () =>
-      analysis
-        ? {
-          notFollowingBack: {
-            title: 'No Followback',
-            count: analysis.notFollowingBackCount,
-            usernames: analysis.notFollowingBack,
-            emptyLabel: 'Everyone in this list follows you back already.',
-          },
-          fans: {
-            title: 'Fans',
-            count: analysis.fansCount,
-            usernames: analysis.fans,
-            emptyLabel: 'No fans detected in this export.',
-          },
-          mutuals: {
-            title: 'Mutuals',
-            count: analysis.mutualCount,
-            usernames: analysis.mutuals,
-            emptyLabel: 'There are no mutual follows in this export.',
-          },
-        }
-        : null,
-    [analysis],
-  )
 
   useEffect(() => {
     if (!analysis || isParsing || window.innerWidth >= 768) {
@@ -200,7 +129,7 @@ function App() {
       return
     }
 
-    if (slideIndex === slides.length - 1) {
+    if (slideIndex === copy.guide.slides.length - 1) {
       closeGuide()
       return
     }
@@ -215,7 +144,7 @@ function App() {
       return
     }
 
-    setSlideDirection(getGuideDirection(slideIndex, nextIndex, slides.length) || slideDirection)
+    setSlideDirection(getGuideDirection(slideIndex, nextIndex, copy.guide.slides.length) || slideDirection)
     setOverlayMode('enter')
     setOverlaySlideIndex(nextIndex)
   }
@@ -262,11 +191,6 @@ function App() {
     }
   }
 
-  const handleTabChange = (tab: RelationshipKey) => {
-    setActiveTab(tab)
-  }
-
-  const activeSection = sections ? sections[activeTab] : undefined
   const activeSearch = searchByTab[activeTab]
 
   const updateActiveSearch = (value: string) => {
@@ -303,155 +227,55 @@ function App() {
           }`}
       />
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-8 pt-6 sm:px-6 lg:px-8">
-        <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#e1306c]">
-              Instagram Relationship Analyzer
-            </p>
-          </div>
-          <div className="self-start rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-left text-[11px] font-medium leading-tight text-slate-500 shadow-sm sm:px-4 sm:text-xs md:max-w-[18rem]">
-            No login • No tracking • No data stored
-          </div>
-        </header>
+        <AppHeader />
 
         <main className="mt-8 grid flex-1 gap-6 lg:mt-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
-          <section className="flex flex-col gap-4 rounded-[2.25rem] border border-white/80 bg-white/75 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:gap-6 sm:p-8 lg:sticky lg:top-6">
-            <div className="space-y-4">
-              <div className="inline-flex rounded-full border border-[#e1306c]/15 bg-[#e1306c]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-[#e1306c]">
-                Private by design
-              </div>
-              <h1 className="max-w-xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-                See who follows you back–and who doesn’t
-              </h1>
-              <p className="max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
-                Load your Instagram data and get a clear follower breakdown in seconds.
-                Everything stays on your device.
-              </p>
-            </div>
+          <HeroPanel
+            isParsing={isParsing}
+            error={error}
+            onOpenGuide={openGuide}
+            onBrowse={handleBrowse}
+            onFileSelected={handleFileSelected}
+          />
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button variant="primary" onClick={openGuide} className="sm:px-6">
-                How to get your data
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={handleBrowse}
-                className="sm:px-6 md:hidden bg-transparent! shadow-none!"
-              >
-                Select ZIP file
-              </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".zip"
-                className="hidden"
-                onChange={handleInputChange}
-              />
-
-              <p className="max-w-md text-sm leading-6 text-slate-500 md:hidden">
-                Nothing is uploaded. Your data is processed locally in your browser.
-              </p>
-            </div>
-
-            <div className="hidden md:block">
-              <UploadZone
-                isParsing={isParsing}
-                onBrowse={handleBrowse}
-                onFileSelected={handleFileSelected}
-              />
-            </div>
-
-            {isParsing ? (
-              <div className="rounded-3xl border border-[#e1306c]/20 bg-[#e1306c]/5 px-4 py-3 text-sm text-[#b11f54]">
-                Parsing the archive locally. Large exports may take a moment.
-              </div>
-            ) : null}
-
-            {error ? (
-              <div className="rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-                {error}
-              </div>
-            ) : null}
-
-            <div className="flex items-center justify-between gap-3 border-t border-slate-200/80 pt-4 text-xs leading-5 text-slate-500 sm:text-sm">
-              <p>
-                Open source on{' '}
-                <a
-                  href="https://github.com/hugolevacher/instachecker"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 transition hover:text-slate-950 hover:decoration-slate-500"
-                >
-                  GitHub
-                </a>{' '}
-                · Built by Hugo Levacher
-              </p>
-            </div>
-          </section>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".zip"
+            className="hidden"
+            onChange={handleInputChange}
+          />
 
           <section ref={resultsRef} className="space-y-4 lg:pt-1">
-            {analysis && sections ? (
-              <div className="rounded-4xl border border-white/80 bg-white/75 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur sm:p-5">
-                <div className="grid grid-cols-3 gap-2">
-                  {relationshipTabs.map(({ key: tab, label, mobileLabel }) => {
-                    const isActive = activeTab === tab
-
-                    return (
-                      <button
-                        key={tab}
-                        type="button"
-                        onClick={() => handleTabChange(tab)}
-                        className={`rounded-2xl border px-3 py-3 text-left transition active:scale-[0.98] ${isActive
-                          ? 'border-[#e1306c] bg-[#e1306c] text-white shadow-lg shadow-pink-500/20'
-                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
-                          }`}
-                      >
-                        <span className="block text-[10px] font-semibold uppercase tracking-[0.12em] opacity-80 sm:hidden">
-                          {mobileLabel}
-                        </span>
-                        <span className="hidden text-xs font-semibold uppercase tracking-[0.25em] opacity-80 sm:block">
-                          {label}
-                        </span>
-                        <span className="mt-1 block text-base font-semibold sm:text-lg">
-                          {sections[tab].count}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-
-                <div className="mt-4">
-                  {activeSection ? (
-                    <RelationshipSection
-                      usernames={activeSection.usernames}
-                      searchValue={activeSearch}
-                      onSearchChange={updateActiveSearch}
-                      onCopy={() => handleCopy(activeSection.usernames)}
-                      copied={copiedTab === activeTab}
-                      onOpenAccount={openInstagramAccount}
-                      emptyLabel={activeSection.emptyLabel}
-                    />
-                  ) : null}
-                </div>
-              </div>
+            {analysis ? (
+              <ResultsPanel
+                analysis={analysis}
+                activeTab={activeTab}
+                searchValue={activeSearch}
+                onTabChange={setActiveTab}
+                onSearchChange={updateActiveSearch}
+                onCopy={() => handleCopy(analysis[activeTab])}
+                copied={copiedTab === activeTab}
+                onOpenAccount={openInstagramAccount}
+              />
             ) : (
               <div className="rounded-4xl border border-dashed border-slate-200 bg-white/80 p-8 text-sm leading-7 text-slate-500 shadow-sm">
-                Your results will appear here after you load your data.
+                {copy.results.placeholder}
               </div>
             )}
           </section>
         </main>
       </div>
 
-      <Modal open={showGuide} title="How to export your Instagram data" onClose={() => setShowGuide(false)}>
+      <Modal open={showGuide} title={copy.guide.title} onClose={() => setShowGuide(false)}>
         <OnboardingCarousel
-          slides={slides}
+          slides={copy.guide.slides}
           baseIndex={slideIndex}
           overlayIndex={overlaySlideIndex}
           overlayMode={overlayMode}
           direction={slideDirection}
           isFirstSlide={slideIndex === 0}
-          isLastSlide={slideIndex === slides.length - 1}
+          isLastSlide={slideIndex === copy.guide.slides.length - 1}
           onPrevious={goToPreviousSlide}
           onNext={goToNextSlide}
           onDone={closeGuide}
