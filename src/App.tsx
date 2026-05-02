@@ -20,39 +20,34 @@ const relationshipTabs: Array<{
 
 const slides: Slide[] = [
   {
-    title: 'Open Instagram settings',
-    description:
-      'Start in Accounts Center and open the section where Instagram lets you access and download your information.',
+    title: 'Open Your Information',
+    description: 'Go to Accounts Center in your settings → Your information and permissions.',
     imageSrc: '/images/step_1_information_and_permissions.png',
   },
   {
-    title: 'Choose your Instagram data',
-    description:
-      'Pick the profile and information you want to export, then continue to the download flow.',
+    title: 'Export Your Data',
+    description: 'Tap Export your information.',
     imageSrc: '/images/step_2_export_your_information.png',
   },
   {
-    title: 'Create the export',
-    description:
-      'Select the export details and request the archive from Instagram.',
+    title: 'Create Export',
+    description: 'Start a new export request.',
     imageSrc: '/images/step_3_create_export.png',
   },
   {
-    title: 'Send it to your device',
-    description:
-      'Choose to export to the device you are using so the ZIP is easy to download right away.',
+    title: 'Choose Destination',
+    description: 'Select Export to device.',
     imageSrc: '/images/step_4_export_to_device.png',
   },
   {
-    title: 'Review the options',
+    title: 'Select Data',
     description:
-      'Keep the default download settings or adjust the format before continuing.',
+      'Choose Followers and following, set Date range to All time, and Format to JSON.',
     imageSrc: '/images/step_5_select_options.png',
   },
   {
-    title: 'Download the ZIP',
-    description:
-      'Confirm the final step and download the archive. Then upload the ZIP into this app.',
+    title: 'Download File',
+    description: 'Once ready, download the ZIP file to your device.',
     imageSrc: '/images/step_6_download.png',
   },
 ]

@@ -93,8 +93,8 @@ export function OnboardingCarousel({
     }
 
     return (
-        <div className="grid w-fit gap-8 px-0 sm:gap-10 lg:grid-cols-[fit-content(15.25rem)_fit-content(20rem)] lg:gap-12 lg:items-center">
-            <div className="mx-auto w-[12.5rem] shrink-0 sm:w-[13.25rem] lg:w-[15.25rem]">
+        <div className="grid w-full justify-items-center gap-8 px-0 sm:gap-10 lg:grid-cols-[15.25rem_20rem] lg:justify-items-start lg:gap-12 lg:items-center">
+            <div className="w-[12.5rem] shrink-0 sm:w-[13.25rem] lg:w-[15.25rem]">
                 <div className="relative mx-auto aspect-[1059/2235] w-full overflow-hidden rounded-[1.95rem] border-[7px] border-slate-950 bg-slate-950 shadow-[0_22px_70px_rgba(15,23,42,0.18)]">
                     <div className="absolute left-1/2 top-0 z-20 h-3 w-20 -translate-x-1/2 rounded-b-[0.85rem] bg-slate-950" />
                     <div className="absolute left-1/2 top-2 z-30 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/25" />
@@ -145,9 +145,9 @@ export function OnboardingCarousel({
                 </div>
             </div>
 
-            <div className="flex h-full w-fit items-center justify-self-start">
-                <div className="flex w-full max-w-[20rem] flex-col justify-center gap-4 sm:max-w-[21rem] sm:gap-5 lg:max-w-[20rem]">
-                    <div className="min-h-[6.5rem] space-y-1.5 sm:min-h-[9.5rem] sm:space-y-2 lg:min-h-[10rem]">
+            <div className="flex h-full w-full items-center justify-self-center lg:w-[20rem] lg:shrink-0 lg:justify-self-start">
+                <div className="flex w-full max-w-full flex-col justify-center gap-4 sm:gap-5 lg:max-w-[20rem]">
+                    <div className="min-h-0 space-y-1.5 sm:min-h-[9.5rem] sm:space-y-2 lg:min-h-[10rem]">
                         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-[#e1306c] sm:text-xs sm:tracking-[0.3em]">
                             Step {baseIndex + 1} of {slides.length}
                         </p>

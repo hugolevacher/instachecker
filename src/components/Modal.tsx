@@ -36,7 +36,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
                 aria-label="Close guide"
                 onClick={onClose}
             />
-            <div className="relative z-10 w-fit max-w-[calc(100vw-2rem)] overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl shadow-slate-900/20">
+            <div className="relative z-10 w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl shadow-slate-900/20 sm:max-w-[52rem] lg:w-fit lg:max-w-none">
                 <div className="flex items-center justify-between border-b border-slate-100 px-3 py-2 sm:px-6 sm:py-4">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
