@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import copy from '../../content/copy.json'
+import copy from '../../content/appText.json'
 import { Badge } from '../../components/ui/Badge'
 import { Text } from '../../components/ui/Text'
 

@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import copy from '../../content/copy.json'
+import copy from '../../content/appText.json'
 import { Button } from '../../components/Button'
 import { Badge } from '../../components/ui/Badge'
 import { Card, CardBody, CardFooter, CardHeader } from '../../components/ui/Card'

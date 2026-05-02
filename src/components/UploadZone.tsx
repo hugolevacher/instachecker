@@ -1,5 +1,5 @@
 import type { DragEvent, KeyboardEvent } from 'react'
-import copy from '../content/copy.json'
+import copy from '../content/appText.json'
 import { Button } from './Button'
 import { Badge } from './ui/Badge'
 import { Card, CardBody } from './ui/Card'

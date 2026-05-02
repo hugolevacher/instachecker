@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import copy from '../content/copy.json'
+import copy from '../content/appText.json'
 import { Button } from './Button'
 import { Text } from './ui/Text'
 

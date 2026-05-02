@@ -1,0 +1,91 @@
+{
+  "brand": {
+    "title": "Instagram Relationship Analyzer",
+    "trust": "No login • No tracking • No data stored"
+  },
+  "hero": {
+    "eyebrow": "Private by design",
+    "headline": "See who follows you back–and who doesn’t",
+    "description": "Load your Instagram data and get a clear follower breakdown in seconds. Everything stays on your device."
+  },
+  "actions": {
+    "guide": "How to get your data",
+    "browse": "Select ZIP file"
+  },
+  "upload": {
+    "eyebrow": "Load your data",
+    "title": "Drop your Instagram ZIP file here",
+    "description": "Nothing is uploaded. Your data is processed locally in your browser. Drag and drop your ZIP file or choose it below.",
+    "select": "Select ZIP file",
+    "parsing": "Parsing the archive locally. Large exports may take a moment."
+  },
+  "results": {
+    "placeholder": "Your results will appear here after you load your data.",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "search": "Search accounts",
+    "clearSearch": "Clear search",
+    "noMatches": "No usernames match your search."
+  },
+  "relationships": [
+    {
+      "key": "notFollowingBack",
+      "label": "No Followback",
+      "mobileLabel": "No Followback",
+      "emptyLabel": "Everyone in this list follows you back already."
+    },
+    {
+      "key": "fans",
+      "label": "Fans",
+      "mobileLabel": "Fans",
+      "emptyLabel": "No fans detected in this export."
+    },
+    {
+      "key": "mutuals",
+      "label": "Mutuals",
+      "mobileLabel": "Mutuals",
+      "emptyLabel": "There are no mutual follows in this export."
+    }
+  ],
+  "credits": {
+    "label": "Open source on",
+    "repoLabel": "GitHub",
+    "repoUrl": "https://github.com/hugolevacher/instachecker",
+    "builtBy": "Built by Hugo Levacher"
+  },
+  "guide": {
+    "title": "How to export your Instagram data",
+    "slides": [
+      {
+        "title": "Open Your Information",
+        "description": "Go to Accounts Center in your settings → Your information and permissions.",
+        "imageSrc": "/images/step_1_information_and_permissions.png"
+      },
+      {
+        "title": "Export Your Data",
+        "description": "Tap Export your information.",
+        "imageSrc": "/images/step_2_export_your_information.png"
+      },
+      {
+        "title": "Create Export",
+        "description": "Start a new export request.",
+        "imageSrc": "/images/step_3_create_export.png"
+      },
+      {
+        "title": "Choose Destination",
+        "description": "Select Export to device.",
+        "imageSrc": "/images/step_4_export_to_device.png"
+      },
+      {
+        "title": "Select Data",
+        "description": "Choose Followers and following, set Date range to All time, and Format to JSON.",
+        "imageSrc": "/images/step_5_select_options.png"
+      },
+      {
+        "title": "Download File",
+        "description": "Once ready, download the ZIP file to your device.",
+        "imageSrc": "/images/step_6_download.png"
+      }
+    ]
+  }
+}

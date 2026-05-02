@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import copy from '../../content/copy.json'
+import copy from '../../content/appText.json'
 import { Card, CardBody, CardHeader } from '../../components/ui/Card'
 import { Text } from '../../components/ui/Text'
 import { RelationshipSection } from '../../components/RelationshipSection'

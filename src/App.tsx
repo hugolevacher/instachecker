@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
-import copy from './content/copy.json'
+import copy from './content/appText.json'
 import { Modal } from './components/Modal'
 import { OnboardingCarousel } from './components/OnboardingCarousel'
 import { AppHeader } from './features/app/AppHeader'

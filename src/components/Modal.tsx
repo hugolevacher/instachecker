@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { cva } from 'class-variance-authority'
 import { Button } from './Button'
+import { Text } from './ui/Text'
 
 type ModalProps = {
     open: boolean
@@ -47,21 +48,25 @@ export function Modal({ open, title, onClose, children, size = 'responsive' }: M
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
-            <button
+            <Button
                 type="button"
-                className="absolute inset-0"
+                variant="ghost"
+                size="none"
+                className="absolute inset-0 rounded-none bg-transparent p-0 shadow-none hover:bg-transparent"
                 aria-label="Close guide"
                 onClick={onClose}
             />
             <div className={modalShellVariants({ size })}>
                 <div className="flex items-center justify-between border-b border-slate-100 px-3 py-2 sm:px-6 sm:py-4">
                     <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                        <Text as="p" variant="overline" className="text-slate-400">
                             Guide
-                        </p>
-                        <h2 className="mt-1 hidden text-lg font-semibold text-slate-900 sm:block">{title}</h2>
+                        </Text>
+                        <Text as="h2" variant="subheading" className="mt-1 hidden sm:block">
+                            {title}
+                        </Text>
                     </div>
-                    <Button variant="ghost" onClick={onClose} className="px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm">
+                    <Button variant="ghost" size="sm" onClick={onClose}>
                         Close
                     </Button>
                 </div>

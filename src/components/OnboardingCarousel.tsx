@@ -1,6 +1,7 @@
 import { useRef, type PointerEvent as ReactPointerEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from './Button'
+import { Text } from './ui/Text'
 
 export type Slide = {
     title: string
@@ -148,11 +149,15 @@ export function OnboardingCarousel({
             <div className="flex h-full w-full items-center justify-self-center lg:w-[20rem] lg:shrink-0 lg:justify-self-start">
                 <div className="flex w-full max-w-full flex-col justify-center gap-4 sm:gap-5 lg:max-w-[20rem]">
                     <div className="min-h-0 space-y-1.5 sm:min-h-[9.5rem] sm:space-y-2 lg:min-h-[10rem]">
-                        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-[#e1306c] sm:text-xs sm:tracking-[0.3em]">
+                        <Text as="p" variant="overline" className="sm:text-xs sm:tracking-[0.3em]">
                             Step {baseIndex + 1} of {slides.length}
-                        </p>
-                        <h3 className="text-lg font-semibold tracking-tight text-slate-950 sm:text-2xl">{current.title}</h3>
-                        <p className="text-xs leading-5 text-slate-600 sm:text-sm sm:leading-6">{current.description}</p>
+                        </Text>
+                        <Text as="h3" variant="subheading" className="text-lg tracking-tight sm:text-2xl">
+                            {current.title}
+                        </Text>
+                        <Text as="p" variant="body" className="text-xs leading-5 sm:text-sm sm:leading-6">
+                            {current.description}
+                        </Text>
                     </div>
 
                     <div className="flex items-center gap-1.5 sm:gap-2">
@@ -168,9 +173,9 @@ export function OnboardingCarousel({
                         ))}
                     </div>
 
-                    <p className="text-[0.65rem] font-medium tracking-[0.12em] text-slate-400 sm:hidden">
+                    <Text as="p" variant="caption" className="tracking-[0.12em] text-slate-400 sm:hidden">
                         Swipe left or right to browse.
-                    </p>
+                    </Text>
 
                     <div className="hidden flex-wrap gap-3 pt-1 sm:flex">
                         <Button onClick={onPrevious} disabled={isFirstSlide}>

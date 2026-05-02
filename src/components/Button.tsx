@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority'
 import { cn } from '../lib/cn'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost'
-type ButtonSize = 'sm' | 'md' | 'lg'
+type ButtonSize = 'none' | 'sm' | 'md' | 'lg'
 
 type ButtonProps = PropsWithChildren<
     ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -22,6 +22,7 @@ const buttonVariants = cva(
                 ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
             },
             size: {
+                none: 'p-0 text-xs',
                 sm: 'px-3 py-2 text-xs',
                 md: 'px-4 py-3 text-sm',
                 lg: 'px-5 py-3 text-base',
