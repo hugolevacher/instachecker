@@ -267,21 +267,30 @@ function App() {
         </main>
       </div>
 
-      <Modal open={showGuide} title={copy.guide.title} onClose={() => setShowGuide(false)}>
-        <OnboardingCarousel
-          slides={copy.guide.slides}
-          baseIndex={slideIndex}
-          overlayIndex={overlaySlideIndex}
-          overlayMode={overlayMode}
-          direction={slideDirection}
-          isFirstSlide={slideIndex === 0}
-          isLastSlide={slideIndex === copy.guide.slides.length - 1}
-          onPrevious={goToPreviousSlide}
-          onNext={goToNextSlide}
-          onDone={closeGuide}
-          onJump={jumpToSlide}
-          onTransitionEnd={handleTransitionEnd}
-        />
+      <Modal open={showGuide} onClose={closeGuide}>
+        <Modal.Header>
+          <Modal.TitleGroup>
+            <Modal.Overline>Guide</Modal.Overline>
+            <Modal.Title>{copy.guide.title}</Modal.Title>
+          </Modal.TitleGroup>
+          <Modal.Close />
+        </Modal.Header>
+        <Modal.Body>
+          <OnboardingCarousel
+            slides={copy.guide.slides}
+            baseIndex={slideIndex}
+            overlayIndex={overlaySlideIndex}
+            overlayMode={overlayMode}
+            direction={slideDirection}
+            isFirstSlide={slideIndex === 0}
+            isLastSlide={slideIndex === copy.guide.slides.length - 1}
+            onPrevious={goToPreviousSlide}
+            onNext={goToNextSlide}
+            onDone={closeGuide}
+            onJump={jumpToSlide}
+            onTransitionEnd={handleTransitionEnd}
+          />
+        </Modal.Body>
       </Modal>
 
     </div>

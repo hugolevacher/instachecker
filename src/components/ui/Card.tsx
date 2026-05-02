@@ -1,6 +1,8 @@
-import type { HTMLAttributes, PropsWithChildren } from 'react'
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
+import { Badge } from './Badge'
+import { Text, type TextProps } from './Text'
 
 const cardVariants = cva('backdrop-blur', {
     variants: {
@@ -23,11 +25,48 @@ const cardVariants = cva('backdrop-blur', {
     },
 })
 
-export type CardProps = PropsWithChildren<
-    HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardVariants>
->
+export type CardTitleProps = Omit<TextProps, 'as' | 'variant'> & {
+    as?: 'h1' | 'h2' | 'h3' | 'h4'
+    variant?: 'title' | 'heading' | 'subheading'
+    children: ReactNode
+    className?: string
+}
 
-export function Card({ variant, padding, className, children, ...props }: CardProps) {
+export type CardDescriptionProps = Omit<TextProps, 'as' | 'variant'> & {
+    as?: 'p' | 'span' | 'div'
+    variant?: 'body' | 'muted' | 'caption'
+    children: ReactNode
+    className?: string
+}
+
+export type CardHeaderProps = HTMLAttributes<HTMLDivElement> & {
+    children?: CardHeaderChild | CardHeaderChild[]
+}
+
+export type CardBodyProps = HTMLAttributes<HTMLDivElement> & {
+    children?: ReactNode
+}
+
+export type CardFooterProps = HTMLAttributes<HTMLDivElement> & {
+    children?: ReactNode
+}
+
+type CardHeaderChild =
+    | ReactElement<CardTitleProps, typeof CardTitle>
+    | ReactElement<CardDescriptionProps, typeof CardDescription>
+    | ReactElement<{ children: ReactNode; className?: string }, typeof Badge>
+
+type CardChild =
+    | ReactElement<CardHeaderProps, typeof CardHeader>
+    | ReactElement<CardBodyProps, typeof CardBody>
+    | ReactElement<CardFooterProps, typeof CardFooter>
+
+export type CardProps = HTMLAttributes<HTMLDivElement> &
+    VariantProps<typeof cardVariants> & {
+        children?: CardChild | CardChild[]
+    }
+
+function CardRoot({ variant, padding, className, children, ...props }: CardProps) {
     return (
         <div className={cn(cardVariants({ variant, padding }), className)} {...props}>
             {children}
@@ -35,14 +74,52 @@ export function Card({ variant, padding, className, children, ...props }: CardPr
     )
 }
 
-export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-    return <div className={cn('flex flex-col gap-2', className)} {...props} />
+function CardHeader({ className, children, ...props }: CardHeaderProps) {
+    return (
+        <div className={cn('flex flex-col gap-2', className)} {...props}>
+            {children}
+        </div>
+    )
 }
 
-export function CardBody({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-    return <div className={cn('min-h-0', className)} {...props} />
+function CardTitle({ children, className, as = 'h2', variant = 'heading' }: CardTitleProps) {
+    return (
+        <Text as={as} variant={variant} className={cn('text-slate-950', className)}>
+            {children}
+        </Text>
+    )
 }
 
-export function CardFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-    return <div className={cn('pt-4', className)} {...props} />
+function CardDescription({ children, className, as = 'p', variant = 'body' }: CardDescriptionProps) {
+    return (
+        <Text as={as} variant={variant} className={cn(className)}>
+            {children}
+        </Text>
+    )
 }
+
+function CardBody({ className, children, ...props }: CardBodyProps) {
+    return (
+        <div className={cn('min-h-0', className)} {...props}>
+            {children}
+        </div>
+    )
+}
+
+function CardFooter({ className, children, ...props }: CardFooterProps) {
+    return (
+        <div className={cn('pt-4', className)} {...props}>
+            {children}
+        </div>
+    )
+}
+
+export const Card = Object.assign(CardRoot, {
+    Header: CardHeader,
+    Title: CardTitle,
+    Description: CardDescription,
+    Body: CardBody,
+    Footer: CardFooter,
+})
+
+export { CardBody, CardDescription, CardFooter, CardHeader, CardTitle }

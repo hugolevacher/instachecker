@@ -2,8 +2,7 @@ import type { DragEvent, KeyboardEvent } from 'react'
 import copy from '../content/appText.json'
 import { Button } from './Button'
 import { Badge } from './ui/Badge'
-import { Card, CardBody } from './ui/Card'
-import { Text } from './ui/Text'
+import { Card } from './ui/Card'
 
 type UploadZoneProps = {
     isParsing: boolean
@@ -40,16 +39,16 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
             onDrop={handleDrop}
             className="group cursor-pointer transition hover:border-[#e1306c]/40 hover:bg-white lg:min-h-[18rem]"
         >
-            <CardBody className="flex h-full flex-col justify-between gap-6 p-5 sm:p-6 lg:p-8">
-                <div className="space-y-3">
+            <Card.Body className="flex h-full flex-col justify-between gap-6 p-5 sm:p-6 lg:p-8">
+                <Card.Header className="space-y-3">
                     <Badge>{copy.upload.eyebrow}</Badge>
-                    <Text as="h2" variant="heading" className="max-w-xl">
+                    <Card.Title as="h2" variant="heading" className="max-w-xl">
                         {copy.upload.title}
-                    </Text>
-                    <Text as="p" variant="body" className="max-w-xl sm:text-base">
+                    </Card.Title>
+                    <Card.Description className="max-w-xl sm:text-base">
                         {copy.upload.description}
-                    </Text>
-                </div>
+                    </Card.Description>
+                </Card.Header>
 
                 <div className="flex justify-start">
                     <Button
@@ -64,7 +63,7 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
                         {isParsing ? 'Parsing archive...' : copy.upload.select}
                     </Button>
                 </div>
-            </CardBody>
+            </Card.Body>
         </Card>
     )
 }

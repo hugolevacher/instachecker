@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import copy from '../../content/appText.json'
-import { Card, CardBody, CardHeader } from '../../components/ui/Card'
+import { Card } from '../../components/ui/Card'
 import { Text } from '../../components/ui/Text'
 import { RelationshipSection } from '../../components/RelationshipSection'
 import type { InstagramAnalysis } from '../instagram/types'
@@ -52,7 +52,7 @@ export function ResultsPanel({
         <Card variant="subtle" padding="md" className="space-y-4 sm:p-5">
             {analysis && activeSection ? (
                 <>
-                    <CardHeader>
+                    <Card.Header>
                         <div className="grid grid-cols-3 gap-2">
                             {relationshipCopy.map((relationship) => {
                                 const isActive = activeTab === relationship.key
@@ -80,9 +80,9 @@ export function ResultsPanel({
                                 )
                             })}
                         </div>
-                    </CardHeader>
+                    </Card.Header>
 
-                    <CardBody className="mt-4">
+                    <Card.Body className="mt-4">
                         <RelationshipSection
                             usernames={analysis[activeTab]}
                             searchValue={searchValue}
@@ -92,7 +92,7 @@ export function ResultsPanel({
                             onOpenAccount={onOpenAccount}
                             emptyLabel={activeSection.emptyLabel}
                         />
-                    </CardBody>
+                    </Card.Body>
                 </>
             ) : (
                 <Text as="div" variant="muted" className="rounded-4xl border border-dashed border-slate-200 bg-white/80 p-8 text-center shadow-sm">
