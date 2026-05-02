@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority'
 
 export type BadgeVariant = 'default' | 'muted' | 'accent'
 
-export const badgeTheme = cva('inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em]', {
+export const badgeTheme = cva('inline-flex w-fit self-start items-center rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em]', {
     variants: {
         variant: {
             default: 'border-[#e1306c]/15 bg-[#e1306c]/5 text-[#e1306c]',

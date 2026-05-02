@@ -51,7 +51,7 @@ export function ResultsPanel({
         : null
 
     return (
-        <Card variant="subtle" padding="md" className={resultsPanelTheme.root}>
+        <Card variant="subtle" padding="none" className={resultsPanelTheme.root}>
             {analysis && activeSection ? (
                 <>
                     <Card.Header>
@@ -97,7 +97,7 @@ export function ResultsPanel({
                     </Card.Body>
                 </>
             ) : (
-                <Text as="div" variant="muted" className={resultsPanelTheme.placeholder}>
+                <Text as="p" variant="muted" className={resultsPanelTheme.placeholder}>
                     {copy.results.placeholder}
                 </Text>
             )}

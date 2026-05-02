@@ -1,5 +1,5 @@
 export const heroPanelTheme = {
-    root: 'flex flex-col gap-4 p-6 sm:gap-6 sm:p-8 lg:sticky lg:top-6',
+    root: 'flex flex-col gap-4 p-5 sm:gap-6 sm:p-8 lg:sticky lg:top-6',
     header: 'space-y-4',
     title: 'max-w-xl',
     description: 'max-w-xl',
