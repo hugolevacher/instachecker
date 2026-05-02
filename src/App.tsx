@@ -297,9 +297,9 @@ function App() {
         setIsDragging(false)
       }}
     >
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_top,_rgba(225,48,108,0.12),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(247,119,55,0.12),_transparent_28%),linear-gradient(180deg,_#fff7fb_0%,_#ffffff_74%,_#f8fafc_100%)] bg-fixed" />
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_top,rgba(225,48,108,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(247,119,55,0.12),transparent_28%),linear-gradient(180deg,#fff7fb_0%,#ffffff_74%,#f8fafc_100%)] bg-fixed" />
       <div
-        className={`pointer-events-none fixed inset-1 z-50 rounded-[1.5rem] border-[4px] border-dashed border-[#e1306c]/80 sm:inset-3 sm:rounded-[2rem] transition-opacity duration-200 ${isDragging ? 'opacity-100' : 'opacity-0'
+        className={`pointer-events-none fixed inset-1 z-50 rounded-3xl border-4 border-dashed border-[#e1306c]/80 sm:inset-3 sm:rounded-4xl transition-opacity duration-200 ${isDragging ? 'opacity-100' : 'opacity-0'
           }`}
       />
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-8 pt-6 sm:px-6 lg:px-8">
@@ -315,7 +315,7 @@ function App() {
         </header>
 
         <main className="mt-8 grid flex-1 gap-6 lg:mt-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
-          <section className="space-y-6 rounded-[2.25rem] border border-white/80 bg-white/75 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8 lg:sticky lg:top-6">
+          <section className="flex flex-col gap-4 rounded-[2.25rem] border border-white/80 bg-white/75 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:gap-6 sm:p-8 lg:sticky lg:top-6">
             <div className="space-y-4">
               <div className="inline-flex rounded-full border border-[#e1306c]/15 bg-[#e1306c]/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-[#e1306c]">
                 Private by design
@@ -336,7 +336,7 @@ function App() {
               <Button
                 variant="secondary"
                 onClick={handleBrowse}
-                className="sm:px-6 md:hidden !bg-transparent !shadow-none"
+                className="sm:px-6 md:hidden bg-transparent! shadow-none!"
               >
                 Select ZIP file
               </Button>
@@ -347,6 +347,10 @@ function App() {
                 className="hidden"
                 onChange={handleInputChange}
               />
+
+              <p className="max-w-md text-sm leading-6 text-slate-500 md:hidden">
+                Nothing is uploaded. Your data is processed locally in your browser.
+              </p>
             </div>
 
             <div className="hidden md:block">
@@ -358,21 +362,36 @@ function App() {
             </div>
 
             {isParsing ? (
-              <div className="rounded-[1.5rem] border border-[#e1306c]/20 bg-[#e1306c]/5 px-4 py-3 text-sm text-[#b11f54]">
+              <div className="rounded-3xl border border-[#e1306c]/20 bg-[#e1306c]/5 px-4 py-3 text-sm text-[#b11f54]">
                 Parsing the archive locally. Large exports may take a moment.
               </div>
             ) : null}
 
             {error ? (
-              <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+              <div className="rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
                 {error}
               </div>
             ) : null}
+
+            <div className="flex items-center justify-between gap-3 border-t border-slate-200/80 pt-4 text-xs leading-5 text-slate-500 sm:text-sm">
+              <p>
+                Open source on{' '}
+                <a
+                  href="https://github.com/hugolevacher/instachecker"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 transition hover:text-slate-950 hover:decoration-slate-500"
+                >
+                  GitHub
+                </a>{' '}
+                · Built by Hugo Levacher
+              </p>
+            </div>
           </section>
 
           <section ref={resultsRef} className="space-y-4 lg:pt-1">
             {analysis && sections ? (
-              <div className="rounded-[2rem] border border-white/80 bg-white/75 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur sm:p-5">
+              <div className="rounded-4xl border border-white/80 bg-white/75 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur sm:p-5">
                 <div className="grid grid-cols-3 gap-2">
                   {relationshipTabs.map(({ key: tab, label, mobileLabel }) => {
                     const isActive = activeTab === tab
@@ -416,7 +435,7 @@ function App() {
                 </div>
               </div>
             ) : (
-              <div className="rounded-[2rem] border border-dashed border-slate-200 bg-white/80 p-8 text-sm leading-7 text-slate-500 shadow-sm">
+              <div className="rounded-4xl border border-dashed border-slate-200 bg-white/80 p-8 text-sm leading-7 text-slate-500 shadow-sm">
                 Your results will appear here after you load your data.
               </div>
             )}
@@ -440,6 +459,7 @@ function App() {
           onTransitionEnd={handleTransitionEnd}
         />
       </Modal>
+
     </div>
   )
 }
