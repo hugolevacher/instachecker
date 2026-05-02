@@ -25,29 +25,29 @@ const cardVariants = cva('backdrop-blur', {
     },
 })
 
-export type CardTitleProps = Omit<TextProps, 'as' | 'variant'> & {
+type CardTitleProps = Omit<TextProps, 'as' | 'variant'> & {
     as?: 'h1' | 'h2' | 'h3' | 'h4'
     variant?: 'title' | 'heading' | 'subheading'
     children: ReactNode
     className?: string
 }
 
-export type CardDescriptionProps = Omit<TextProps, 'as' | 'variant'> & {
+type CardDescriptionProps = Omit<TextProps, 'as' | 'variant'> & {
     as?: 'p' | 'span' | 'div'
     variant?: 'body' | 'muted' | 'caption'
     children: ReactNode
     className?: string
 }
 
-export type CardHeaderProps = HTMLAttributes<HTMLDivElement> & {
+type CardHeaderProps = HTMLAttributes<HTMLDivElement> & {
     children?: CardHeaderChild | CardHeaderChild[]
 }
 
-export type CardBodyProps = HTMLAttributes<HTMLDivElement> & {
+type CardBodyProps = HTMLAttributes<HTMLDivElement> & {
     children?: ReactNode
 }
 
-export type CardFooterProps = HTMLAttributes<HTMLDivElement> & {
+type CardFooterProps = HTMLAttributes<HTMLDivElement> & {
     children?: ReactNode
 }
 
@@ -61,10 +61,18 @@ type CardChild =
     | ReactElement<CardBodyProps, typeof CardBody>
     | ReactElement<CardFooterProps, typeof CardFooter>
 
-export type CardProps = HTMLAttributes<HTMLDivElement> &
+type CardProps = HTMLAttributes<HTMLDivElement> &
     VariantProps<typeof cardVariants> & {
         children?: CardChild | CardChild[]
     }
+
+type CardCompound = ((props: CardProps) => ReactElement) & {
+    Header: typeof CardHeader
+    Title: typeof CardTitle
+    Description: typeof CardDescription
+    Body: typeof CardBody
+    Footer: typeof CardFooter
+}
 
 function CardRoot({ variant, padding, className, children, ...props }: CardProps) {
     return (
@@ -114,12 +122,12 @@ function CardFooter({ className, children, ...props }: CardFooterProps) {
     )
 }
 
-export const Card = Object.assign(CardRoot, {
-    Header: CardHeader,
-    Title: CardTitle,
-    Description: CardDescription,
-    Body: CardBody,
-    Footer: CardFooter,
-})
+export const Card = ((props: CardProps) => {
+    return <CardRoot {...props} />
+}) as CardCompound
 
-export { CardBody, CardDescription, CardFooter, CardHeader, CardTitle }
+Card.Header = CardHeader
+Card.Title = CardTitle
+Card.Description = CardDescription
+Card.Body = CardBody
+Card.Footer = CardFooter

@@ -41,9 +41,13 @@ type ModalBodyProps = {
     className?: string
 }
 
-type ModalFooterProps = {
-    children?: ReactNode
-    className?: string
+type ModalCompound = ((props: ModalProps) => ReactElement | null) & {
+    Header: typeof ModalHeader
+    TitleGroup: typeof ModalTitleGroup
+    Overline: typeof ModalOverline
+    Title: typeof ModalTitle
+    Close: typeof ModalClose
+    Body: typeof ModalBody
 }
 
 type ModalTitleGroupChild =
@@ -57,7 +61,6 @@ type ModalHeaderChild =
 type ModalChild =
     | ReactElement<ModalHeaderProps, typeof ModalHeader>
     | ReactElement<ModalBodyProps, typeof ModalBody>
-    | ReactElement<ModalFooterProps, typeof ModalFooter>
 
 type ModalContextValue = {
     onClose: () => void
@@ -174,16 +177,13 @@ function ModalBody({ className, children }: ModalBodyProps) {
     return <div className={cn('px-4 py-4 sm:px-14 sm:py-10', className)}>{children}</div>
 }
 
-function ModalFooter({ className, children }: ModalFooterProps) {
-    return <div className={cn('px-4 pb-4 sm:px-14 sm:pb-10', className)}>{children}</div>
-}
+export const Modal = ((props: ModalProps) => {
+    return <ModalRoot {...props} />
+}) as ModalCompound
 
-export const Modal = Object.assign(ModalRoot, {
-    Header: ModalHeader,
-    TitleGroup: ModalTitleGroup,
-    Overline: ModalOverline,
-    Title: ModalTitle,
-    Close: ModalClose,
-    Body: ModalBody,
-    Footer: ModalFooter,
-})
+Modal.Header = ModalHeader
+Modal.TitleGroup = ModalTitleGroup
+Modal.Overline = ModalOverline
+Modal.Title = ModalTitle
+Modal.Close = ModalClose
+Modal.Body = ModalBody
