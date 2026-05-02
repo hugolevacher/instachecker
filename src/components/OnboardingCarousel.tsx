@@ -2,6 +2,8 @@ import { useRef, type PointerEvent as ReactPointerEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from './Button'
 import { Text } from './ui/Text'
+import { cn } from '../lib/cn'
+import { onboardingCarouselTheme } from '../theme/features/app/onboardingCarousel'
 
 export type Slide = {
     title: string
@@ -94,22 +96,22 @@ export function OnboardingCarousel({
     }
 
     return (
-        <div className="grid w-full justify-items-center gap-8 px-0 sm:gap-10 lg:grid-cols-[15.25rem_20rem] lg:justify-items-start lg:gap-12 lg:items-center">
-            <div className="w-[12.5rem] shrink-0 sm:w-[13.25rem] lg:w-[15.25rem]">
-                <div className="relative mx-auto aspect-[1059/2235] w-full overflow-hidden rounded-[1.95rem] border-[7px] border-slate-950 bg-slate-950 shadow-[0_22px_70px_rgba(15,23,42,0.18)]">
-                    <div className="absolute left-1/2 top-0 z-20 h-3 w-20 -translate-x-1/2 rounded-b-[0.85rem] bg-slate-950" />
-                    <div className="absolute left-1/2 top-2 z-30 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/25" />
-                    <div className="absolute right-[-10px] top-18 z-10 h-8 w-1.5 rounded-r-full bg-slate-900" />
-                    <div className="absolute right-[-10px] top-28 z-10 h-12 w-1.5 rounded-r-full bg-slate-900" />
-                    <div className="absolute left-[-10px] top-22 z-10 h-6 w-1.5 rounded-l-full bg-slate-900" />
+        <div className={onboardingCarouselTheme.root}>
+            <div className={onboardingCarouselTheme.phoneColumn}>
+                <div className={onboardingCarouselTheme.phoneFrame}>
+                    <div className={onboardingCarouselTheme.notch} />
+                    <div className={onboardingCarouselTheme.receiver} />
+                    <div className={onboardingCarouselTheme.sideTop} />
+                    <div className={onboardingCarouselTheme.sideMid} />
+                    <div className={onboardingCarouselTheme.sideLeft} />
 
                     <img
                         src={current.imageSrc}
                         alt={current.title}
                         draggable={false}
-                        className="absolute inset-0 h-full w-full object-cover"
+                        className={onboardingCarouselTheme.image}
                     />
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(225,48,108,0.08),transparent_45%),linear-gradient(180deg,rgba(15,23,42,0.05),transparent_30%)]" />
+                    <div className={onboardingCarouselTheme.shade} />
 
                     <AnimatePresence initial={false} custom={direction}>
                         {overlay ? (
@@ -121,21 +123,21 @@ export function OnboardingCarousel({
                                 animate={overlayMode === 'exit' ? 'exit' : 'center'}
                                 transition={{ type: 'tween', ease: 'easeInOut', duration: 0.28 }}
                                 onAnimationComplete={onTransitionEnd}
-                                className="absolute inset-0 z-10 overflow-hidden rounded-[2.5rem]"
+                                className={onboardingCarouselTheme.overlay}
                             >
                                 <img
                                     src={overlay.imageSrc}
                                     alt={overlay.title}
                                     draggable={false}
-                                    className="h-full w-full object-cover"
+                                    className={onboardingCarouselTheme.overlayImage}
                                 />
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(225,48,108,0.08),transparent_45%),linear-gradient(180deg,rgba(15,23,42,0.05),transparent_30%)]" />
+                                <div className={onboardingCarouselTheme.shade} />
                             </motion.div>
                         ) : null}
                     </AnimatePresence>
 
                     <div
-                        className="absolute inset-0 z-20 cursor-grab touch-pan-y select-none active:cursor-grabbing"
+                        className={onboardingCarouselTheme.swipeLayer}
                         aria-hidden="true"
                         onPointerDown={handleSwipeStart}
                         onPointerUp={handleSwipeEnd}
@@ -146,38 +148,40 @@ export function OnboardingCarousel({
                 </div>
             </div>
 
-            <div className="flex h-full w-full items-center justify-self-center lg:w-[20rem] lg:shrink-0 lg:justify-self-start">
-                <div className="flex w-full max-w-full flex-col justify-center gap-4 sm:gap-5 lg:max-w-[20rem]">
-                    <div className="min-h-0 space-y-1.5 sm:min-h-[9.5rem] sm:space-y-2 lg:min-h-[10rem]">
-                        <Text as="p" variant="overline" className="sm:text-xs sm:tracking-[0.3em]">
+            <div className={onboardingCarouselTheme.contentColumn}>
+                <div className={onboardingCarouselTheme.contentInner}>
+                    <div className={onboardingCarouselTheme.copyBlock}>
+                        <Text as="p" variant="overline" className={onboardingCarouselTheme.stepLabel}>
                             Step {baseIndex + 1} of {slides.length}
                         </Text>
-                        <Text as="h3" variant="subheading" className="text-lg tracking-tight sm:text-2xl">
+                        <Text as="h3" variant="subheading" className={onboardingCarouselTheme.title}>
                             {current.title}
                         </Text>
-                        <Text as="p" variant="body" className="text-xs leading-5 sm:text-sm sm:leading-6">
+                        <Text as="p" variant="body" className={onboardingCarouselTheme.description}>
                             {current.description}
                         </Text>
                     </div>
 
-                    <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className={onboardingCarouselTheme.dots}>
                         {slides.map((slide, slideIndex) => (
                             <button
                                 key={slide.title}
                                 type="button"
                                 onClick={() => onJump(slideIndex)}
-                                className={`h-3.5 rounded-full transition-all sm:h-2.5 ${slideIndex === baseIndex ? 'w-9 bg-[#e1306c] sm:w-8' : 'w-3.5 bg-slate-200 sm:w-2.5'
-                                    }`}
+                                className={cn(
+                                    onboardingCarouselTheme.dot,
+                                    slideIndex === baseIndex ? onboardingCarouselTheme.dotActive : onboardingCarouselTheme.dotInactive,
+                                )}
                                 aria-label={`Go to slide ${slideIndex + 1}`}
                             />
                         ))}
                     </div>
 
-                    <Text as="p" variant="caption" className="tracking-[0.12em] text-slate-400 sm:hidden">
+                    <Text as="p" variant="caption" className={onboardingCarouselTheme.hint}>
                         Swipe left or right to browse.
                     </Text>
 
-                    <div className="hidden flex-wrap gap-3 pt-1 sm:flex">
+                    <div className={onboardingCarouselTheme.actions}>
                         <Button onClick={onPrevious} disabled={isFirstSlide}>
                             Previous
                         </Button>

@@ -5,6 +5,8 @@ import { AppHeader } from './AppHeader'
 import { HeroPanel } from './HeroPanel'
 import { ResultsPanel } from './ResultsPanel'
 import { useAppController } from './useAppController'
+import { cn } from '../../lib/cn'
+import { appPageTheme } from '../../theme/features/app/page'
 
 export function AppPage() {
     const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -13,7 +15,7 @@ export function AppPage() {
 
     return (
         <div
-            className="relative min-h-screen overflow-hidden text-slate-700"
+            className={appPageTheme.root}
             onDragOver={(event) => event.preventDefault()}
             onDrop={(event) => {
                 event.preventDefault()
@@ -23,15 +25,17 @@ export function AppPage() {
                 }
             }}
         >
-            <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_top,rgba(225,48,108,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(247,119,55,0.12),transparent_28%),linear-gradient(180deg,#fff7fb_0%,#ffffff_74%,#f8fafc_100%)] bg-fixed" />
+            <div className={appPageTheme.background} />
             <div
-                className={`pointer-events-none fixed inset-1 z-50 rounded-3xl border-4 border-dashed border-[#e1306c]/80 sm:inset-3 sm:rounded-4xl transition-opacity duration-200 ${controller.isDragging ? 'opacity-100' : 'opacity-0'
-                    }`}
+                className={cn(
+                    appPageTheme.dragOverlay,
+                    controller.isDragging ? appPageTheme.dragOverlayVisible : appPageTheme.dragOverlayHidden,
+                )}
             />
-            <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-8 pt-6 sm:px-6 lg:px-8">
+            <div className={appPageTheme.container}>
                 <AppHeader />
 
-                <main className="mt-8 grid flex-1 gap-6 lg:mt-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+                <main className={appPageTheme.main}>
                     <HeroPanel
                         isParsing={controller.isParsing}
                         error={controller.error}
@@ -44,11 +48,11 @@ export function AppPage() {
                         ref={fileInputRef}
                         type="file"
                         accept=".zip"
-                        className="hidden"
+                        className={appPageTheme.fileInput}
                         onChange={controller.handleInputChange}
                     />
 
-                    <section ref={resultsRef} className="space-y-4 lg:pt-1">
+                    <section ref={resultsRef} className={appPageTheme.resultsSection}>
                         <ResultsPanel
                             analysis={controller.analysis}
                             activeTab={controller.activeTab}

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import copy from '../content/appText.json'
+import { cn } from '../lib/cn'
 import { Button } from './Button'
 import { Text } from './ui/Text'
+import { relationshipSectionTheme } from '../theme/features/app/relationshipSection'
 
 type RelationshipSectionProps = {
     usernames: string[]
@@ -42,19 +44,15 @@ export function RelationshipSection({
     }, [copied])
 
     return (
-        <section className="flex min-h-0 flex-col px-1 pt-2 sm:px-0">
-            <div className="flex items-center justify-end gap-4">
-                <Button
-                    variant="ghost"
-                    onClick={onCopy}
-                    className="px-3 py-2 text-sm"
-                >
+        <section className={relationshipSectionTheme.root}>
+            <div className={relationshipSectionTheme.actions}>
+                <Button variant="ghost" onClick={onCopy} className={relationshipSectionTheme.copyButton}>
                     {copied ? copy.results.copied : copy.results.copy}
                 </Button>
             </div>
 
-            <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                <label className="sr-only" htmlFor="relationship-search">
+            <div className={relationshipSectionTheme.searchBox}>
+                <label className={relationshipSectionTheme.searchLabel} htmlFor="relationship-search">
                     {copy.results.search}
                 </label>
                 <div className="relative">
@@ -64,14 +62,14 @@ export function RelationshipSection({
                         value={searchValue}
                         onChange={(event) => onSearchChange(event.target.value)}
                         placeholder={copy.results.search}
-                        className="w-full min-w-0 bg-transparent pr-10 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                        className={relationshipSectionTheme.searchInput}
                     />
                     {hasQuery ? (
                         <button
                             type="button"
                             onClick={() => onSearchChange('')}
                             aria-label={copy.results.clearSearch}
-                            className="absolute right-0 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 transition active:scale-95 hover:border-[#e1306c]/40 hover:text-[#e1306c]"
+                            className={relationshipSectionTheme.clearButton}
                         >
                             <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
                                 <path
@@ -88,21 +86,24 @@ export function RelationshipSection({
                 </div>
             </div>
 
-            <div className="mt-2 flex min-h-0 flex-1 flex-col">
-                <div className="flex-1 overflow-y-auto pr-1">
+            <div className={relationshipSectionTheme.listWrapper}>
+                <div className={relationshipSectionTheme.scrollArea}>
                     {visibleUsernames.length > 0 ? (
-                        <ul className="space-y-2">
+                        <ul className={relationshipSectionTheme.list}>
                             {visibleUsernames.map((username) => (
-                                <li key={username} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 shadow-sm overflow-hidden">
-                                    <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                                        <span className="min-w-0 flex-1 truncate">@{username}</span>
+                                <li key={username} className={relationshipSectionTheme.item}>
+                                    <div className={relationshipSectionTheme.itemGrid}>
+                                        <span className={relationshipSectionTheme.username}>@{username}</span>
                                         <Button
                                             variant="secondary"
                                             onClick={() => {
                                                 setPressedUsername(username)
                                                 onOpenAccount(username)
                                             }}
-                                            className={`shrink-0 px-3 py-2 text-xs transition-transform duration-150 ${pressedUsername === username ? 'scale-95' : ''}`}
+                                            className={cn(
+                                                relationshipSectionTheme.openButton,
+                                                pressedUsername === username && relationshipSectionTheme.openButtonPressed,
+                                            )}
                                         >
                                             Open
                                         </Button>
@@ -111,7 +112,7 @@ export function RelationshipSection({
                             ))}
                         </ul>
                     ) : (
-                        <Text as="div" variant="muted" className="flex h-full items-center justify-center px-4 py-10 text-center">
+                        <Text as="div" variant="muted" className={relationshipSectionTheme.emptyState}>
                             {searchValue ? copy.results.noMatches : emptyLabel}
                         </Text>
                     )}

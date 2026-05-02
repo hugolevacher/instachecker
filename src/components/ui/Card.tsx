@@ -1,29 +1,9 @@
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
 import { Badge } from './Badge'
 import { Text, type TextProps } from './Text'
-
-const cardVariants = cva('backdrop-blur', {
-    variants: {
-        variant: {
-            default: 'rounded-[2.25rem] border border-white/80 bg-white/75 shadow-[0_24px_80px_rgba(15,23,42,0.08)]',
-            subtle: 'rounded-4xl border border-slate-200/80 bg-white/80 shadow-sm',
-            dashed: 'rounded-4xl border border-dashed border-slate-200 bg-white/80 shadow-sm',
-            elevated: 'rounded-[2.5rem] border border-white/90 bg-white/90 shadow-[0_30px_100px_rgba(15,23,42,0.12)]',
-        },
-        padding: {
-            none: '',
-            sm: 'p-4',
-            md: 'p-6',
-            lg: 'p-8',
-        },
-    },
-    defaultVariants: {
-        variant: 'default',
-        padding: 'none',
-    },
-})
+import { cardTheme } from '../../theme/primitives/card'
 
 type CardTitleProps = Omit<TextProps, 'as' | 'variant'> & {
     as?: 'h1' | 'h2' | 'h3' | 'h4'
@@ -62,7 +42,7 @@ type CardChild =
     | ReactElement<CardFooterProps, typeof CardFooter>
 
 type CardProps = HTMLAttributes<HTMLDivElement> &
-    VariantProps<typeof cardVariants> & {
+    VariantProps<typeof cardTheme.root> & {
         children?: CardChild | CardChild[]
     }
 
@@ -76,7 +56,7 @@ type CardCompound = ((props: CardProps) => ReactElement) & {
 
 function CardRoot({ variant, padding, className, children, ...props }: CardProps) {
     return (
-        <div className={cn(cardVariants({ variant, padding }), className)} {...props}>
+        <div className={cn(cardTheme.root({ variant, padding }), className)} {...props}>
             {children}
         </div>
     )
@@ -84,7 +64,7 @@ function CardRoot({ variant, padding, className, children, ...props }: CardProps
 
 function CardHeader({ className, children, ...props }: CardHeaderProps) {
     return (
-        <div className={cn('flex flex-col gap-2', className)} {...props}>
+        <div className={cn(cardTheme.header, className)} {...props}>
             {children}
         </div>
     )
@@ -92,7 +72,7 @@ function CardHeader({ className, children, ...props }: CardHeaderProps) {
 
 function CardTitle({ children, className, as = 'h2', variant = 'heading' }: CardTitleProps) {
     return (
-        <Text as={as} variant={variant} className={cn('text-slate-950', className)}>
+        <Text as={as} variant={variant} className={cn(cardTheme.title, className)}>
             {children}
         </Text>
     )
@@ -100,7 +80,7 @@ function CardTitle({ children, className, as = 'h2', variant = 'heading' }: Card
 
 function CardDescription({ children, className, as = 'p', variant = 'body' }: CardDescriptionProps) {
     return (
-        <Text as={as} variant={variant} className={cn(className)}>
+        <Text as={as} variant={variant} className={cn(cardTheme.description, className)}>
             {children}
         </Text>
     )
@@ -108,7 +88,7 @@ function CardDescription({ children, className, as = 'p', variant = 'body' }: Ca
 
 function CardBody({ className, children, ...props }: CardBodyProps) {
     return (
-        <div className={cn('min-h-0', className)} {...props}>
+        <div className={cn(cardTheme.body, className)} {...props}>
             {children}
         </div>
     )
@@ -116,7 +96,7 @@ function CardBody({ className, children, ...props }: CardBodyProps) {
 
 function CardFooter({ className, children, ...props }: CardFooterProps) {
     return (
-        <div className={cn('pt-4', className)} {...props}>
+        <div className={cn(cardTheme.footer, className)} {...props}>
             {children}
         </div>
     )

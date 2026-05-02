@@ -1,0 +1,18 @@
+export const relationshipSectionTheme = {
+    root: 'flex min-h-0 flex-col px-1 pt-2 sm:px-0',
+    actions: 'flex items-center justify-end gap-4',
+    copyButton: 'px-3 py-2 text-sm',
+    searchBox: 'mt-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm',
+    searchLabel: 'sr-only',
+    searchInput: 'w-full min-w-0 bg-transparent pr-10 text-sm text-slate-900 outline-none placeholder:text-slate-400',
+    clearButton: 'absolute right-0 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 transition active:scale-95 hover:border-[#e1306c]/40 hover:text-[#e1306c]',
+    listWrapper: 'mt-2 flex min-h-0 flex-1 flex-col',
+    scrollArea: 'flex-1 overflow-y-auto pr-1',
+    list: 'space-y-2',
+    item: 'w-full overflow-hidden rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 shadow-sm',
+    itemGrid: 'grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3',
+    username: 'min-w-0 flex-1 truncate',
+    openButton: 'shrink-0 px-3 py-2 text-xs transition-transform duration-150',
+    openButtonPressed: 'scale-95',
+    emptyState: 'flex h-full items-center justify-center px-4 py-10 text-center',
+} as const

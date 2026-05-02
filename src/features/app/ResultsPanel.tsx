@@ -5,6 +5,8 @@ import { Text } from '../../components/ui/Text'
 import { RelationshipSection } from '../../components/RelationshipSection'
 import type { InstagramAnalysis } from '../instagram/types'
 import type { RelationshipKey } from './types'
+import { resultsPanelTheme } from '../../theme/features/app/resultsPanel'
+import { cn } from '../../lib/cn'
 
 type RelationshipCopy = {
     key: RelationshipKey
@@ -49,11 +51,11 @@ export function ResultsPanel({
         : null
 
     return (
-        <Card variant="subtle" padding="md" className="space-y-4 sm:p-5">
+        <Card variant="subtle" padding="md" className={resultsPanelTheme.root}>
             {analysis && activeSection ? (
                 <>
                     <Card.Header>
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className={resultsPanelTheme.tabs}>
                             {relationshipCopy.map((relationship) => {
                                 const isActive = activeTab === relationship.key
 
@@ -62,18 +64,18 @@ export function ResultsPanel({
                                         key={relationship.key}
                                         type="button"
                                         onClick={() => onTabChange(relationship.key)}
-                                        className={`rounded-2xl border px-3 py-3 text-left transition active:scale-[0.98] ${isActive
-                                            ? 'border-[#e1306c] bg-[#e1306c] text-white shadow-lg shadow-pink-500/20'
-                                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
-                                            }`}
+                                        className={cn(
+                                            resultsPanelTheme.tabButton,
+                                            isActive ? resultsPanelTheme.tabButtonActive : resultsPanelTheme.tabButtonIdle,
+                                        )}
                                     >
-                                        <span className="block text-[10px] font-semibold uppercase tracking-[0.12em] opacity-80 sm:hidden">
+                                        <span className={resultsPanelTheme.tabLabelMobile}>
                                             {relationship.mobileLabel}
                                         </span>
-                                        <span className="hidden text-xs font-semibold uppercase tracking-[0.25em] opacity-80 sm:block">
+                                        <span className={resultsPanelTheme.tabLabelDesktop}>
                                             {relationship.label}
                                         </span>
-                                        <span className="mt-1 block text-base font-semibold sm:text-lg">
+                                        <span className={resultsPanelTheme.tabCount}>
                                             {counts?.[relationship.key]}
                                         </span>
                                     </button>
@@ -82,7 +84,7 @@ export function ResultsPanel({
                         </div>
                     </Card.Header>
 
-                    <Card.Body className="mt-4">
+                    <Card.Body className={resultsPanelTheme.body}>
                         <RelationshipSection
                             usernames={analysis[activeTab]}
                             searchValue={searchValue}
@@ -95,7 +97,7 @@ export function ResultsPanel({
                     </Card.Body>
                 </>
             ) : (
-                <Text as="div" variant="muted" className="rounded-4xl border border-dashed border-slate-200 bg-white/80 p-8 text-center shadow-sm">
+                <Text as="div" variant="muted" className={resultsPanelTheme.placeholder}>
                     {copy.results.placeholder}
                 </Text>
             )}

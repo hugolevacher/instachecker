@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, type ReactElement, type ReactNode } from 'react'
-import { cva } from 'class-variance-authority'
 import { cn } from '../lib/cn'
 import { Button } from './Button'
 import { Text } from './ui/Text'
+import { modalTheme } from '../theme/primitives/modal'
 
 type ModalProps = {
     open: boolean
@@ -77,21 +77,6 @@ function useModalContext() {
     return context
 }
 
-const modalShellVariants = cva(
-    'relative z-10 w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl shadow-slate-900/20',
-    {
-        variants: {
-            size: {
-                responsive: 'max-w-[calc(100vw-2rem)] sm:max-w-[52rem] lg:w-fit lg:max-w-none',
-                wide: 'max-w-[calc(100vw-2rem)] sm:max-w-[64rem]',
-            },
-        },
-        defaultVariants: {
-            size: 'responsive',
-        },
-    },
-)
-
 function ModalRoot({ open, onClose, children, size = 'responsive' }: ModalProps) {
     useEffect(() => {
         if (!open) {
@@ -114,16 +99,16 @@ function ModalRoot({ open, onClose, children, size = 'responsive' }: ModalProps)
 
     return (
         <ModalContext.Provider value={{ onClose }}>
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 py-6 backdrop-blur-sm">
+            <div className={modalTheme.backdrop}>
                 <Button
                     type="button"
                     variant="ghost"
                     size="none"
-                    className="absolute inset-0 rounded-none bg-transparent p-0 shadow-none hover:bg-transparent"
+                    className={modalTheme.closeOverlay}
                     aria-label="Close guide"
                     onClick={onClose}
                 />
-                <div className={modalShellVariants({ size })}>
+                <div className={modalTheme.shell({ size })}>
                     {children}
                 </div>
             </div>
@@ -133,7 +118,7 @@ function ModalRoot({ open, onClose, children, size = 'responsive' }: ModalProps)
 
 function ModalHeader({ className, children }: ModalHeaderProps) {
     return (
-        <div className={cn('flex items-center justify-between border-b border-slate-100 px-3 py-2 sm:px-6 sm:py-4', className)}>
+        <div className={cn(modalTheme.header, className)}>
             {children}
         </div>
     )
@@ -141,7 +126,7 @@ function ModalHeader({ className, children }: ModalHeaderProps) {
 
 function ModalTitleGroup({ className, children }: ModalTitleGroupProps) {
     return (
-        <div className={cn('flex flex-col', className)}>
+        <div className={cn(modalTheme.titleGroup, className)}>
             {children}
         </div>
     )
@@ -149,7 +134,7 @@ function ModalTitleGroup({ className, children }: ModalTitleGroupProps) {
 
 function ModalOverline({ children, className }: ModalOverlineProps) {
     return (
-        <Text as="p" variant="overline" className={cn('text-slate-400', className)}>
+        <Text as="p" variant="overline" className={cn(modalTheme.overline, className)}>
             {children}
         </Text>
     )
@@ -157,7 +142,7 @@ function ModalOverline({ children, className }: ModalOverlineProps) {
 
 function ModalTitle({ children, className }: ModalTitleProps) {
     return (
-        <Text as="h2" variant="subheading" className={cn('mt-1 hidden sm:block', className)}>
+        <Text as="h2" variant="subheading" className={cn(modalTheme.title, className)}>
             {children}
         </Text>
     )
@@ -174,7 +159,7 @@ function ModalClose({ children = 'Close', className }: ModalCloseProps) {
 }
 
 function ModalBody({ className, children }: ModalBodyProps) {
-    return <div className={cn('px-4 py-4 sm:px-14 sm:py-10', className)}>{children}</div>
+    return <div className={cn(modalTheme.body, className)}>{children}</div>
 }
 
 export const Modal = ((props: ModalProps) => {

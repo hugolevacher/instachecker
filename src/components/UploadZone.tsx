@@ -3,6 +3,7 @@ import copy from '../content/appText.json'
 import { Button } from './Button'
 import { Badge } from './ui/Badge'
 import { Card } from './ui/Card'
+import { uploadZoneTheme } from '../theme/features/app/uploadZone'
 
 type UploadZoneProps = {
     isParsing: boolean
@@ -37,10 +38,10 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
             onKeyDown={handleKeyDown}
             onDragOver={(event) => event.preventDefault()}
             onDrop={handleDrop}
-            className="group cursor-pointer transition hover:border-[#e1306c]/40 hover:bg-white lg:min-h-[18rem]"
+            className={uploadZoneTheme.root}
         >
-            <Card.Body className="flex h-full flex-col justify-between gap-6 p-5 sm:p-6 lg:p-8">
-                <Card.Header className="space-y-3">
+            <Card.Body className={uploadZoneTheme.body}>
+                <Card.Header className={uploadZoneTheme.header}>
                     <Badge>{copy.upload.eyebrow}</Badge>
                     <Card.Title as="h2" variant="heading" className="max-w-xl">
                         {copy.upload.title}
@@ -50,7 +51,7 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
                     </Card.Description>
                 </Card.Header>
 
-                <div className="flex justify-start">
+                <div className={uploadZoneTheme.buttonWrap}>
                     <Button
                         variant="primary"
                         onClick={(event) => {
@@ -58,7 +59,7 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
                             onBrowse()
                         }}
                         disabled={isParsing}
-                        className="sm:px-5"
+                        className={uploadZoneTheme.button}
                     >
                         {isParsing ? 'Parsing archive...' : copy.upload.select}
                     </Button>
