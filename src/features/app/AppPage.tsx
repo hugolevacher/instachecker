@@ -5,17 +5,17 @@ import { AppHeader } from './AppHeader'
 import { HeroPanel } from './HeroPanel'
 import { ResultsPanel } from './ResultsPanel'
 import { useAppController } from './useAppController'
-import { cn } from '../../lib/cn'
 import { appPageTheme } from '../../theme/features/app/page'
 
 export function AppPage() {
     const fileInputRef = useRef<HTMLInputElement | null>(null)
     const resultsRef = useRef<HTMLElement | null>(null)
     const controller = useAppController({ fileInputRef, resultsRef })
+    const pageTheme = appPageTheme({ dragging: controller.isDragging })
 
     return (
         <div
-            className={appPageTheme.root}
+            className={pageTheme.root()}
             onDragOver={(event) => event.preventDefault()}
             onDrop={(event) => {
                 event.preventDefault()
@@ -25,17 +25,12 @@ export function AppPage() {
                 }
             }}
         >
-            <div className={appPageTheme.background} />
-            <div
-                className={cn(
-                    appPageTheme.dragOverlay,
-                    controller.isDragging ? appPageTheme.dragOverlayVisible : appPageTheme.dragOverlayHidden,
-                )}
-            />
-            <div className={appPageTheme.container}>
+            <div className={pageTheme.background()} />
+            <div className={pageTheme.dragOverlay()} />
+            <div className={pageTheme.container()}>
                 <AppHeader />
 
-                <main className={appPageTheme.main}>
+                <main className={pageTheme.main()}>
                     <HeroPanel
                         isParsing={controller.isParsing}
                         error={controller.error}
@@ -48,11 +43,11 @@ export function AppPage() {
                         ref={fileInputRef}
                         type="file"
                         accept=".zip"
-                        className={appPageTheme.fileInput}
+                        className={pageTheme.fileInput()}
                         onChange={controller.handleInputChange}
                     />
 
-                    <section ref={resultsRef} className={appPageTheme.resultsSection}>
+                    <section ref={resultsRef} className={pageTheme.resultsSection()}>
                         <ResultsPanel
                             analysis={controller.analysis}
                             activeTab={controller.activeTab}

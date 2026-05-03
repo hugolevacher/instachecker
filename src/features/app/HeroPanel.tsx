@@ -16,61 +16,63 @@ type HeroPanelProps = {
 }
 
 export function HeroPanel({ isParsing, error, onOpenGuide, onBrowse, onFileSelected }: HeroPanelProps): ReactElement {
+    const heroTheme = heroPanelTheme()
+
     return (
-        <Card className={heroPanelTheme.root}>
-            <Card.Header className={heroPanelTheme.header}>
+        <Card className={heroTheme.root()}>
+            <Card.Header className={heroTheme.header()}>
                 <Badge>{copy.hero.eyebrow}</Badge>
-                <Card.Title as="h1" variant="title" className={heroPanelTheme.title}>
+                <Card.Title as="h1" variant="title" className={heroTheme.title()}>
                     {copy.hero.headline}
                 </Card.Title>
-                <Card.Description className={heroPanelTheme.description}>
+                <Card.Description className={heroTheme.description()}>
                     {copy.hero.description}
                 </Card.Description>
             </Card.Header>
 
-            <Card.Body className={heroPanelTheme.body}>
-                <div className={heroPanelTheme.actions}>
-                    <Button variant="primary" onClick={onOpenGuide} className={heroPanelTheme.guideButton}>
+            <Card.Body className={heroTheme.body()}>
+                <div className={heroTheme.actions()}>
+                    <Button variant="primary" onClick={onOpenGuide} className={heroTheme.guideButton()}>
                         {copy.actions.guide}
                     </Button>
                     <Button
                         variant="secondary"
                         onClick={onBrowse}
-                        className={heroPanelTheme.browseButton}
+                        className={heroTheme.browseButton()}
                     >
                         {copy.actions.browse}
                     </Button>
 
-                    <Text as="p" variant="muted" className={heroPanelTheme.helperText}>
+                    <Text as="p" variant="muted" className={heroTheme.helperText()}>
                         {copy.upload.description}
                     </Text>
                 </div>
 
-                <div className={heroPanelTheme.desktopUpload}>
+                <div className={heroTheme.desktopUpload()}>
                     <UploadZone isParsing={isParsing} onBrowse={onBrowse} onFileSelected={onFileSelected} />
                 </div>
 
                 {isParsing ? (
-                    <div className={heroPanelTheme.parsingNotice}>
+                    <div className={heroTheme.parsingNotice()}>
                         {copy.upload.parsing}
                     </div>
                 ) : null}
 
                 {error ? (
-                    <div className={heroPanelTheme.errorNotice}>
+                    <div className={heroTheme.errorNotice()}>
                         {error}
                     </div>
                 ) : null}
             </Card.Body>
 
-            <Card.Footer className={heroPanelTheme.footer}>
-                <Text as="p" variant="caption" className={heroPanelTheme.footerText}>
+            <Card.Footer className={heroTheme.footer()}>
+                <Text as="p" variant="caption" className={heroTheme.footerText()}>
                     {copy.credits.label}{' '}
                     <a
                         href={copy.credits.repoUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className={heroPanelTheme.footerLink}
+                        className={heroTheme.footerLink()}
                     >
                         {copy.credits.repoLabel}
                     </a>{' '}

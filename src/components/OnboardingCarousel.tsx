@@ -2,7 +2,6 @@ import { useRef, type PointerEvent as ReactPointerEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from './Button'
 import { Text } from './ui/Text'
-import { cn } from '../lib/cn'
 import { onboardingCarouselTheme } from '../theme/features/app/onboardingCarousel'
 
 export type Slide = {
@@ -55,6 +54,7 @@ export function OnboardingCarousel({
     onJump,
     onTransitionEnd,
 }: OnboardingCarouselProps) {
+    const carouselTheme = onboardingCarouselTheme()
     const current = slides[baseIndex]
     const overlay = overlayIndex !== null ? slides[overlayIndex] : null
     const swipeStartRef = useRef<{ x: number; y: number } | null>(null)
@@ -96,22 +96,22 @@ export function OnboardingCarousel({
     }
 
     return (
-        <div className={onboardingCarouselTheme.root}>
-            <div className={onboardingCarouselTheme.phoneColumn}>
-                <div className={onboardingCarouselTheme.phoneFrame}>
-                    <div className={onboardingCarouselTheme.notch} />
-                    <div className={onboardingCarouselTheme.receiver} />
-                    <div className={onboardingCarouselTheme.sideTop} />
-                    <div className={onboardingCarouselTheme.sideMid} />
-                    <div className={onboardingCarouselTheme.sideLeft} />
+        <div className={carouselTheme.root()}>
+            <div className={carouselTheme.phoneColumn()}>
+                <div className={carouselTheme.phoneFrame()}>
+                    <div className={carouselTheme.notch()} />
+                    <div className={carouselTheme.receiver()} />
+                    <div className={carouselTheme.sideTop()} />
+                    <div className={carouselTheme.sideMid()} />
+                    <div className={carouselTheme.sideLeft()} />
 
                     <img
                         src={current.imageSrc}
                         alt={current.title}
                         draggable={false}
-                        className={onboardingCarouselTheme.image}
+                        className={carouselTheme.image()}
                     />
-                    <div className={onboardingCarouselTheme.shade} />
+                    <div className={carouselTheme.shade()} />
 
                     <AnimatePresence initial={false} custom={direction}>
                         {overlay ? (
@@ -123,21 +123,21 @@ export function OnboardingCarousel({
                                 animate={overlayMode === 'exit' ? 'exit' : 'center'}
                                 transition={{ type: 'tween', ease: 'easeInOut', duration: 0.28 }}
                                 onAnimationComplete={onTransitionEnd}
-                                className={onboardingCarouselTheme.overlay}
+                                className={carouselTheme.overlay()}
                             >
                                 <img
                                     src={overlay.imageSrc}
                                     alt={overlay.title}
                                     draggable={false}
-                                    className={onboardingCarouselTheme.overlayImage}
+                                    className={carouselTheme.overlayImage()}
                                 />
-                                <div className={onboardingCarouselTheme.shade} />
+                                <div className={carouselTheme.shade()} />
                             </motion.div>
                         ) : null}
                     </AnimatePresence>
 
                     <div
-                        className={onboardingCarouselTheme.swipeLayer}
+                        className={carouselTheme.swipeLayer()}
                         aria-hidden="true"
                         onPointerDown={handleSwipeStart}
                         onPointerUp={handleSwipeEnd}
@@ -148,40 +148,41 @@ export function OnboardingCarousel({
                 </div>
             </div>
 
-            <div className={onboardingCarouselTheme.contentColumn}>
-                <div className={onboardingCarouselTheme.contentInner}>
-                    <div className={onboardingCarouselTheme.copyBlock}>
-                        <Text as="p" variant="overline" className={onboardingCarouselTheme.stepLabel}>
+            <div className={carouselTheme.contentColumn()}>
+                <div className={carouselTheme.contentInner()}>
+                    <div className={carouselTheme.copyBlock()}>
+                        <Text as="p" variant="overline" className={carouselTheme.stepLabel()}>
                             Step {baseIndex + 1} of {slides.length}
                         </Text>
-                        <Text as="h3" variant="subheading" className={onboardingCarouselTheme.title}>
+                        <Text as="h3" variant="subheading" className={carouselTheme.title()}>
                             {current.title}
                         </Text>
-                        <Text as="p" variant="body" className={onboardingCarouselTheme.description}>
+                        <Text as="p" variant="body" className={carouselTheme.description()}>
                             {current.description}
                         </Text>
                     </div>
 
-                    <div className={onboardingCarouselTheme.dots}>
-                        {slides.map((slide, slideIndex) => (
-                            <button
-                                key={slide.title}
-                                type="button"
-                                onClick={() => onJump(slideIndex)}
-                                className={cn(
-                                    onboardingCarouselTheme.dot,
-                                    slideIndex === baseIndex ? onboardingCarouselTheme.dotActive : onboardingCarouselTheme.dotInactive,
-                                )}
-                                aria-label={`Go to slide ${slideIndex + 1}`}
-                            />
-                        ))}
+                    <div className={carouselTheme.dots()}>
+                        {slides.map((slide, slideIndex) => {
+                            const dotTheme = onboardingCarouselTheme({ active: slideIndex === baseIndex })
+
+                            return (
+                                <button
+                                    key={slide.title}
+                                    type="button"
+                                    onClick={() => onJump(slideIndex)}
+                                    className={dotTheme.dot()}
+                                    aria-label={`Go to slide ${slideIndex + 1}`}
+                                />
+                            )
+                        })}
                     </div>
 
-                    <Text as="p" variant="caption" className={onboardingCarouselTheme.hint}>
+                    <Text as="p" variant="caption" className={carouselTheme.hint()}>
                         Swipe left or right to browse.
                     </Text>
 
-                    <div className={onboardingCarouselTheme.actions}>
+                    <div className={carouselTheme.actions()}>
                         <Button onClick={onPrevious} disabled={isFirstSlide}>
                             Previous
                         </Button>

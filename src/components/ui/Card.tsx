@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react'
-import { type VariantProps } from 'class-variance-authority'
+import { type VariantProps } from 'tailwind-variants'
 import { cn } from '../../lib/cn'
 import { Badge } from './Badge'
 import { Text, type TextProps } from './Text'
@@ -42,7 +42,7 @@ type CardChild =
     | ReactElement<CardFooterProps, typeof CardFooter>
 
 type CardProps = HTMLAttributes<HTMLDivElement> &
-    VariantProps<typeof cardTheme.root> & {
+    VariantProps<typeof cardTheme> & {
         children?: CardChild | CardChild[]
     }
 
@@ -55,48 +55,60 @@ type CardCompound = ((props: CardProps) => ReactElement) & {
 }
 
 function CardRoot({ variant, padding, className, children, ...props }: CardProps) {
+    const classes = cardTheme({ variant, padding })
+
     return (
-        <div className={cn(cardTheme.root({ variant, padding }), className)} {...props}>
+        <div className={cn(classes.root(), className)} {...props}>
             {children}
         </div>
     )
 }
 
 function CardHeader({ className, children, ...props }: CardHeaderProps) {
+    const classes = cardTheme()
+
     return (
-        <div className={cn(cardTheme.header, className)} {...props}>
+        <div className={cn(classes.header(), className)} {...props}>
             {children}
         </div>
     )
 }
 
 function CardTitle({ children, className, as = 'h2', variant = 'heading' }: CardTitleProps) {
+    const classes = cardTheme()
+
     return (
-        <Text as={as} variant={variant} className={cn(cardTheme.title, className)}>
+        <Text as={as} variant={variant} className={cn(classes.title(), className)}>
             {children}
         </Text>
     )
 }
 
 function CardDescription({ children, className, as = 'p', variant = 'body' }: CardDescriptionProps) {
+    const classes = cardTheme()
+
     return (
-        <Text as={as} variant={variant} className={cn(cardTheme.description, className)}>
+        <Text as={as} variant={variant} className={cn(classes.description(), className)}>
             {children}
         </Text>
     )
 }
 
 function CardBody({ className, children, ...props }: CardBodyProps) {
+    const classes = cardTheme()
+
     return (
-        <div className={cn(cardTheme.body, className)} {...props}>
+        <div className={cn(classes.body(), className)} {...props}>
             {children}
         </div>
     )
 }
 
 function CardFooter({ className, children, ...props }: CardFooterProps) {
+    const classes = cardTheme()
+
     return (
-        <div className={cn(cardTheme.footer, className)} {...props}>
+        <div className={cn(classes.footer(), className)} {...props}>
             {children}
         </div>
     )

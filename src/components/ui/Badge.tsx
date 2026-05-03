@@ -1,5 +1,5 @@
 import type { HTMLAttributes, PropsWithChildren } from 'react'
-import { type VariantProps } from 'class-variance-authority'
+import { type VariantProps } from 'tailwind-variants'
 import { badgeTheme } from '../../theme/primitives/badge'
 import { cn } from '../../lib/cn'
 
@@ -8,8 +8,10 @@ export type BadgeProps = PropsWithChildren<
 >
 
 export function Badge({ variant, className, children, ...props }: BadgeProps) {
+    const classes = badgeTheme({ variant })
+
     return (
-        <span className={cn(badgeTheme({ variant }), className)} {...props}>
+        <span className={cn(classes, className)} {...props}>
             {children}
         </span>
     )

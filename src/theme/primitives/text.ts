@@ -1,8 +1,7 @@
-import { cva } from 'class-variance-authority'
+import { tv, type VariantProps } from 'tailwind-variants'
 
-export type TextVariant = 'eyebrow' | 'overline' | 'title' | 'heading' | 'subheading' | 'body' | 'muted' | 'caption' | 'label'
-
-export const textTheme = cva('', {
+export const textTheme = tv({
+    base: '',
     variants: {
         variant: {
             eyebrow: 'text-xs font-semibold uppercase tracking-[0.35em] text-[#e1306c]',
@@ -20,3 +19,5 @@ export const textTheme = cva('', {
         variant: 'body',
     },
 })
+
+export type TextVariant = VariantProps<typeof textTheme>['variant']

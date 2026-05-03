@@ -5,12 +5,14 @@ import { Text } from '../../components/ui/Text'
 import { appHeaderTheme } from '../../theme/features/app/header'
 
 export function AppHeader(): ReactElement {
+    const headerTheme = appHeaderTheme()
+
     return (
-        <header className={appHeaderTheme.root}>
+        <header className={headerTheme.root()}>
             <Text as="p" variant="eyebrow">
                 {copy.brand.title}
             </Text>
-            <Badge variant="muted" className={appHeaderTheme.trustBadge}>
+            <Badge variant="muted" className={headerTheme.trustBadge()}>
                 {copy.brand.trust}
             </Badge>
         </header>

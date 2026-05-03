@@ -6,7 +6,6 @@ import { RelationshipSection } from '../../components/RelationshipSection'
 import type { InstagramAnalysis } from '../instagram/types'
 import type { RelationshipKey } from './types'
 import { resultsPanelTheme } from '../../theme/features/app/resultsPanel'
-import { cn } from '../../lib/cn'
 
 type RelationshipCopy = {
     key: RelationshipKey
@@ -38,6 +37,8 @@ export function ResultsPanel({
     copied,
     onOpenAccount,
 }: ResultsPanelProps): ReactElement {
+    const panelTheme = resultsPanelTheme()
+
     const activeSection = analysis
         ? relationshipCopy.find((relationship) => relationship.key === activeTab)
         : null
@@ -51,31 +52,29 @@ export function ResultsPanel({
         : null
 
     return (
-        <Card variant="subtle" padding="none" className={resultsPanelTheme.root}>
+        <Card variant="subtle" padding="none" className={panelTheme.root()}>
             {analysis && activeSection ? (
                 <>
                     <Card.Header>
-                        <div className={resultsPanelTheme.tabs}>
+                        <div className={panelTheme.tabs()}>
                             {relationshipCopy.map((relationship) => {
                                 const isActive = activeTab === relationship.key
+                                const tabTheme = resultsPanelTheme({ active: isActive })
 
                                 return (
                                     <button
                                         key={relationship.key}
                                         type="button"
                                         onClick={() => onTabChange(relationship.key)}
-                                        className={cn(
-                                            resultsPanelTheme.tabButton,
-                                            isActive ? resultsPanelTheme.tabButtonActive : resultsPanelTheme.tabButtonIdle,
-                                        )}
+                                        className={tabTheme.tabButton()}
                                     >
-                                        <span className={resultsPanelTheme.tabLabelMobile}>
+                                        <span className={tabTheme.tabLabelMobile()}>
                                             {relationship.mobileLabel}
                                         </span>
-                                        <span className={resultsPanelTheme.tabLabelDesktop}>
+                                        <span className={tabTheme.tabLabelDesktop()}>
                                             {relationship.label}
                                         </span>
-                                        <span className={resultsPanelTheme.tabCount}>
+                                        <span className={tabTheme.tabCount()}>
                                             {counts?.[relationship.key]}
                                         </span>
                                     </button>
@@ -84,7 +83,7 @@ export function ResultsPanel({
                         </div>
                     </Card.Header>
 
-                    <Card.Body className={resultsPanelTheme.body}>
+                    <Card.Body className={panelTheme.body()}>
                         <RelationshipSection
                             usernames={analysis[activeTab]}
                             searchValue={searchValue}
@@ -97,7 +96,7 @@ export function ResultsPanel({
                     </Card.Body>
                 </>
             ) : (
-                <Text as="p" variant="muted" className={resultsPanelTheme.placeholder}>
+                <Text as="p" variant="muted" className={panelTheme.placeholder()}>
                     {copy.results.placeholder}
                 </Text>
             )}

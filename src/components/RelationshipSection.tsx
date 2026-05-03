@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import copy from '../content/appText.json'
-import { cn } from '../lib/cn'
 import { Button } from './Button'
 import { Text } from './ui/Text'
 import { relationshipSectionTheme } from '../theme/features/app/relationshipSection'
@@ -25,6 +24,7 @@ export function RelationshipSection({
     emptyLabel,
 }: RelationshipSectionProps) {
     const [pressedUsername, setPressedUsername] = useState<string | null>(null)
+    const sectionTheme = relationshipSectionTheme()
     const hasQuery = searchValue.length > 0
 
     const visibleUsernames = usernames.filter((username) =>
@@ -44,15 +44,15 @@ export function RelationshipSection({
     }, [copied])
 
     return (
-        <section className={relationshipSectionTheme.root}>
-            <div className={relationshipSectionTheme.actions}>
-                <Button variant="ghost" onClick={onCopy} className={relationshipSectionTheme.copyButton}>
+        <section className={sectionTheme.root()}>
+            <div className={sectionTheme.actions()}>
+                <Button variant="ghost" onClick={onCopy} className={sectionTheme.copyButton()}>
                     {copied ? copy.results.copied : copy.results.copy}
                 </Button>
             </div>
 
-            <div className={relationshipSectionTheme.searchBox}>
-                <label className={relationshipSectionTheme.searchLabel} htmlFor="relationship-search">
+            <div className={sectionTheme.searchBox()}>
+                <label className={sectionTheme.searchLabel()} htmlFor="relationship-search">
                     {copy.results.search}
                 </label>
                 <div className="relative">
@@ -62,14 +62,14 @@ export function RelationshipSection({
                         value={searchValue}
                         onChange={(event) => onSearchChange(event.target.value)}
                         placeholder={copy.results.search}
-                        className={relationshipSectionTheme.searchInput}
+                        className={sectionTheme.searchInput()}
                     />
                     {hasQuery ? (
                         <button
                             type="button"
                             onClick={() => onSearchChange('')}
                             aria-label={copy.results.clearSearch}
-                            className={relationshipSectionTheme.clearButton}
+                            className={sectionTheme.clearButton()}
                         >
                             <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
                                 <path
@@ -86,33 +86,34 @@ export function RelationshipSection({
                 </div>
             </div>
 
-            <div className={relationshipSectionTheme.listWrapper}>
-                <div className={relationshipSectionTheme.scrollArea}>
+            <div className={sectionTheme.listWrapper()}>
+                <div className={sectionTheme.scrollArea()}>
                     {visibleUsernames.length > 0 ? (
-                        <ul className={relationshipSectionTheme.list}>
-                            {visibleUsernames.map((username) => (
-                                <li key={username} className={relationshipSectionTheme.item}>
-                                    <div className={relationshipSectionTheme.itemGrid}>
-                                        <span className={relationshipSectionTheme.username}>@{username}</span>
-                                        <Button
-                                            variant="secondary"
-                                            onClick={() => {
-                                                setPressedUsername(username)
-                                                onOpenAccount(username)
-                                            }}
-                                            className={cn(
-                                                relationshipSectionTheme.openButton,
-                                                pressedUsername === username && relationshipSectionTheme.openButtonPressed,
-                                            )}
-                                        >
-                                            Open
-                                        </Button>
-                                    </div>
-                                </li>
-                            ))}
+                        <ul className={sectionTheme.list()}>
+                            {visibleUsernames.map((username) => {
+                                const itemTheme = relationshipSectionTheme({ pressed: pressedUsername === username })
+
+                                return (
+                                    <li key={username} className={sectionTheme.item()}>
+                                        <div className={sectionTheme.itemGrid()}>
+                                            <span className={sectionTheme.username()}>@{username}</span>
+                                            <Button
+                                                variant="secondary"
+                                                onClick={() => {
+                                                    setPressedUsername(username)
+                                                    onOpenAccount(username)
+                                                }}
+                                                className={itemTheme.openButton()}
+                                            >
+                                                Open
+                                            </Button>
+                                        </div>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     ) : (
-                        <Text as="div" variant="muted" className={relationshipSectionTheme.emptyState}>
+                        <Text as="div" variant="muted" className={sectionTheme.emptyState()}>
                             {searchValue ? copy.results.noMatches : emptyLabel}
                         </Text>
                     )}

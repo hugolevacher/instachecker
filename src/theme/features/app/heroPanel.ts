@@ -1,17 +1,21 @@
-export const heroPanelTheme = {
-    root: 'flex flex-col gap-4 p-5 sm:gap-6 sm:p-8 lg:sticky lg:top-6',
-    header: 'space-y-4',
-    title: 'max-w-xl',
-    description: 'max-w-xl',
-    body: 'space-y-4 sm:space-y-6',
-    actions: 'flex flex-col gap-3 sm:flex-row',
-    guideButton: 'sm:px-6',
-    browseButton: 'sm:px-6 md:hidden bg-transparent! shadow-none!',
-    helperText: 'max-w-md md:hidden',
-    desktopUpload: 'hidden md:block',
-    parsingNotice: 'rounded-3xl border border-[#e1306c]/20 bg-[#e1306c]/5 px-4 py-3 text-sm text-[#b11f54]',
-    errorNotice: 'rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700',
-    footer: 'border-t border-slate-200/80 pt-4',
-    footerText: 'leading-5 text-slate-500 sm:text-sm',
-    footerLink: 'font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 transition hover:text-slate-950 hover:decoration-slate-500',
-} as const
+import { tv } from 'tailwind-variants'
+
+export const heroPanelTheme = tv({
+    slots: {
+        root: 'flex flex-col gap-4 p-5 sm:gap-6 sm:p-8 lg:sticky lg:top-6',
+        header: 'space-y-4',
+        title: 'max-w-xl',
+        description: 'max-w-xl',
+        body: 'space-y-4 sm:space-y-6',
+        actions: 'flex flex-col gap-3 sm:flex-row',
+        guideButton: 'sm:px-6',
+        browseButton: 'sm:px-6 md:hidden bg-transparent! shadow-none!',
+        helperText: 'max-w-md md:hidden',
+        desktopUpload: 'hidden md:block',
+        parsingNotice: 'rounded-3xl border border-[#e1306c]/20 bg-[#e1306c]/5 px-4 py-3 text-sm text-[#b11f54]',
+        errorNotice: 'rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700',
+        footer: 'border-t border-slate-200/80 pt-4',
+        footerText: 'leading-5 text-slate-500 sm:text-sm',
+        footerLink: 'font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 transition hover:text-slate-950 hover:decoration-slate-500',
+    },
+})

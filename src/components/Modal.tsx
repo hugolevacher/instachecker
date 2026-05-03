@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, type ReactElement, type ReactNode } from 'react'
+import { type VariantProps } from 'tailwind-variants'
 import { cn } from '../lib/cn'
 import { Button } from './Button'
 import { Text } from './ui/Text'
@@ -8,8 +9,7 @@ type ModalProps = {
     open: boolean
     onClose: () => void
     children?: ModalChild | ModalChild[]
-    size?: 'responsive' | 'wide'
-}
+} & VariantProps<typeof modalTheme>
 
 type ModalTitleGroupProps = {
     children?: ModalTitleGroupChild | ModalTitleGroupChild[]
@@ -78,6 +78,8 @@ function useModalContext() {
 }
 
 function ModalRoot({ open, onClose, children, size = 'responsive' }: ModalProps) {
+    const classes = modalTheme({ size })
+
     useEffect(() => {
         if (!open) {
             return
@@ -99,16 +101,16 @@ function ModalRoot({ open, onClose, children, size = 'responsive' }: ModalProps)
 
     return (
         <ModalContext.Provider value={{ onClose }}>
-            <div className={modalTheme.backdrop}>
+            <div className={classes.backdrop()}>
                 <Button
                     type="button"
                     variant="ghost"
                     size="none"
-                    className={modalTheme.closeOverlay}
+                    className={classes.closeOverlay()}
                     aria-label="Close guide"
                     onClick={onClose}
                 />
-                <div className={modalTheme.shell({ size })}>
+                <div className={classes.shell()}>
                     {children}
                 </div>
             </div>
@@ -117,32 +119,40 @@ function ModalRoot({ open, onClose, children, size = 'responsive' }: ModalProps)
 }
 
 function ModalHeader({ className, children }: ModalHeaderProps) {
+    const classes = modalTheme()
+
     return (
-        <div className={cn(modalTheme.header, className)}>
+        <div className={cn(classes.header(), className)}>
             {children}
         </div>
     )
 }
 
 function ModalTitleGroup({ className, children }: ModalTitleGroupProps) {
+    const classes = modalTheme()
+
     return (
-        <div className={cn(modalTheme.titleGroup, className)}>
+        <div className={cn(classes.titleGroup(), className)}>
             {children}
         </div>
     )
 }
 
 function ModalOverline({ children, className }: ModalOverlineProps) {
+    const classes = modalTheme()
+
     return (
-        <Text as="p" variant="overline" className={cn(modalTheme.overline, className)}>
+        <Text as="p" variant="overline" className={cn(classes.overline(), className)}>
             {children}
         </Text>
     )
 }
 
 function ModalTitle({ children, className }: ModalTitleProps) {
+    const classes = modalTheme()
+
     return (
-        <Text as="h2" variant="subheading" className={cn(modalTheme.title, className)}>
+        <Text as="h2" variant="subheading" className={cn(classes.title(), className)}>
             {children}
         </Text>
     )
@@ -159,7 +169,9 @@ function ModalClose({ children = 'Close', className }: ModalCloseProps) {
 }
 
 function ModalBody({ className, children }: ModalBodyProps) {
-    return <div className={cn(modalTheme.body, className)}>{children}</div>
+    const classes = modalTheme()
+
+    return <div className={cn(classes.body(), className)}>{children}</div>
 }
 
 export const Modal = ((props: ModalProps) => {

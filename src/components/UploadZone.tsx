@@ -12,6 +12,8 @@ type UploadZoneProps = {
 }
 
 export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZoneProps) {
+    const uploadTheme = uploadZoneTheme()
+
     const handleDrop = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault()
         const file = event.dataTransfer.files?.[0]
@@ -38,20 +40,20 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
             onKeyDown={handleKeyDown}
             onDragOver={(event) => event.preventDefault()}
             onDrop={handleDrop}
-            className={uploadZoneTheme.root}
+            className={uploadTheme.root()}
         >
-            <Card.Body className={uploadZoneTheme.body}>
-                <Card.Header className={uploadZoneTheme.header}>
+            <Card.Body className={uploadTheme.body()}>
+                <Card.Header className={uploadTheme.header()}>
                     <Badge>{copy.upload.eyebrow}</Badge>
-                    <Card.Title as="h2" variant="heading" className="max-w-xl">
+                    <Card.Title as="h2" variant="heading" className={uploadTheme.title()}>
                         {copy.upload.title}
                     </Card.Title>
-                    <Card.Description className="max-w-xl sm:text-base">
+                    <Card.Description className={uploadTheme.description()}>
                         {copy.upload.description}
                     </Card.Description>
                 </Card.Header>
 
-                <div className={uploadZoneTheme.buttonWrap}>
+                <div className={uploadTheme.buttonWrap()}>
                     <Button
                         variant="primary"
                         onClick={(event) => {
@@ -59,7 +61,7 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
                             onBrowse()
                         }}
                         disabled={isParsing}
-                        className={uploadZoneTheme.button}
+                        className={uploadTheme.button()}
                     >
                         {isParsing ? 'Parsing archive...' : copy.upload.select}
                     </Button>
