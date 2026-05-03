@@ -1,0 +1,28 @@
+{
+    "name": "NotFollowingBack",
+    "short_name": "NFB",
+    "description": "See who doesn’t follow you back on Instagram. Private, fast, and runs in your browser.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#fff7fb",
+    "theme_color": "#e1306c",
+    "icons": [
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon-maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

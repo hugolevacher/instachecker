@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NotFollowingBack OG Preview</title>
+    <style>
+        :root {
+            --text: #0f172a;
+            --muted: #475569;
+            --line: rgba(15, 23, 42, 0.08);
+            --accent: #e1306c;
+            --accent-2: #f77737;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            background: #ffffff;
+            color: var(--text);
+            overflow: hidden;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+        }
+
+        .card {
+            width: 1200px;
+            height: 630px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fff7fb 0%, #fff2e8 38%, #f4efff 100%);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 28px 70px rgba(15, 23, 42, 0.12);
+            display: grid;
+            grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+        }
+
+        .card::before,
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .card::before {
+            background:
+                radial-gradient(circle at 84% 14%, rgba(225, 48, 108, 0.09), transparent 23%),
+                radial-gradient(circle at 16% 86%, rgba(247, 119, 55, 0.06), transparent 24%);
+        }
+
+        .card::after {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.36), transparent 42%),
+                linear-gradient(0deg, rgba(255, 255, 255, 0.14), transparent 18%);
+        }
+
+        .copy {
+            position: relative;
+            z-index: 1;
+            padding: 42px 54px 44px 62px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            align-self: flex-start;
+            padding: 11px 16px 11px 13px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand img {
+            width: 32px;
+            height: 32px;
+            display: block;
+        }
+
+        h1 {
+            margin: 24px 0 0;
+            max-width: 640px;
+            font-size: 66px;
+            line-height: 0.93;
+            letter-spacing: -0.07em;
+        }
+
+        .desc {
+            margin: 18px 0 0;
+            max-width: 620px;
+            font-size: 23px;
+            line-height: 1.46;
+            color: var(--muted);
+        }
+
+        .trust {
+            margin-top: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+            color: #334155;
+            font-size: 14px;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        .mockup-wrap {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 18px 34px 0 8px;
+        }
+
+        .mockup {
+            width: 360px;
+            aspect-ratio: 1059 / 2235;
+            border-radius: 38px;
+            border: 11px solid #0f172a;
+            background: #0f172a;
+            box-shadow: 0 34px 100px rgba(15, 23, 42, 0.22);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mockup::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 18px;
+            border-radius: 0 0 18px 18px;
+            background: #0f172a;
+            z-index: 3;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(225, 48, 108, 0.16), transparent 30%),
+                linear-gradient(180deg, #fffefc 0%, #f8fafc 100%);
+        }
+
+        .screen::before {
+            content: "";
+            position: absolute;
+            inset: 22px;
+            border-radius: 30px;
+        }
+
+        .summary {
+            position: absolute;
+            inset: 26px;
+            z-index: 1;
+            border-radius: 28px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94));
+            box-shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .scan {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .separator {
+            height: 1px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.03));
+        }
+
+        .tabs {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 15px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: #ffffff;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+            color: #556985;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #eb2e72, #d61f65);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 16px 30px rgba(225, 48, 108, 0.26);
+        }
+
+        .tab strong {
+            font-size: 14px;
+            font-weight: 800;
+            color: inherit;
+            letter-spacing: -0.02em;
+        }
+
+        .tab-count {
+            font-size: 16px;
+            font-weight: 800;
+            color: inherit;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .search {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: #ffffff;
+            color: #8ea0be;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+        }
+
+        .users {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .user-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            background: #ffffff;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+        }
+
+        .user-name {
+            min-width: 0;
+            color: #1f2937;
+            font-size: 13px;
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .open-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 62px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+            color: #0f172a;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <section class="copy">
+            <div class="brand">
+                <img src="./favicon.svg" alt="NotFollowingBack" />
+                <span>NotFollowingBack</span>
+            </div>
+
+            <h1>See who doesn’t follow you back.</h1>
+
+            <p class="desc">
+                Upload your Instagram export and get a fast breakdown of No Followback, Fans, and Mutuals.
+                Simple, local, and built to show the result instantly.
+            </p>
+
+            <div class="trust">No login • No tracking • No data stored</div>
+        </section>
+
+        <section class="mockup-wrap" aria-hidden="true">
+            <div class="mockup">
+                <div class="screen"></div>
+                <div class="phone-body">
+                    <div class="summary">
+                        <div class="scan">Scan complete</div>
+                        <div class="separator"></div>
+
+                        <div class="tabs">
+                            <div class="tab active">
+                                <strong>No Followback</strong>
+                                <span class="tab-count">9</span>
+                            </div>
+                            <div class="tab">
+                                <strong>Fans</strong>
+                                <span class="tab-count">99</span>
+                            </div>
+                            <div class="tab">
+                                <strong>Mutuals</strong>
+                                <span class="tab-count">89</span>
+                            </div>
+                        </div>
+
+                        <div class="toolbar">Copy</div>
+
+                        <div class="search">Search accounts</div>
+
+                        <div class="users">
+                            <div class="user-row">
+                                <div class="user-name">@fox.run</div>
+                                <div class="open-button">Open</div>
+                            </div>
+                            <div class="user-row">
+                                <div class="user-name">@skate.nova</div>
+                                <div class="open-button">Open</div>
+                            </div>
+                            <div class="user-row">
+                                <div class="user-name">@panda.loop</div>
+                                <div class="open-button">Open</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
