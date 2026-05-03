@@ -16,6 +16,7 @@
     "eyebrow": "Load your data",
     "title": "Drop your Instagram ZIP file here",
     "description": "Nothing is uploaded. Your data is processed locally in your browser. Drag and drop your ZIP file or choose it below.",
+    "mobileDescription": "Nothing is uploaded. Your data is processed locally in your browser. Choose your ZIP file below.",
     "select": "Select ZIP file",
     "parsing": "Parsing the archive locally. Large exports may take a moment."
   },

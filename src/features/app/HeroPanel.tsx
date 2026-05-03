@@ -44,7 +44,7 @@ export function HeroPanel({ isParsing, error, onOpenGuide, onBrowse, onFileSelec
                     </Button>
 
                     <Text as="p" variant="muted" className={heroTheme.helperText()}>
-                        {copy.upload.description}
+                        {copy.upload.mobileDescription}
                     </Text>
                 </div>
 

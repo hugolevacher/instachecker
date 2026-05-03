@@ -23,6 +23,30 @@ async function copyUsernames(usernames: string[]) {
     await navigator.clipboard.writeText(usernames.join('\n'))
 }
 
+function openInstagramProfileWithFallback(username: string) {
+    const profileUrl = `https://www.instagram.com/${encodeURIComponent(username)}/`
+    const appUrl = `instagram://user?username=${encodeURIComponent(username)}`
+
+    const isMobile = window.navigator.userAgent.toLowerCase().includes('mobile')
+
+    if (!isMobile) {
+        window.open(profileUrl, '_blank', 'noopener,noreferrer')
+        return
+    }
+
+    const appFrame = document.createElement('iframe')
+    appFrame.style.display = 'none'
+    appFrame.src = appUrl
+    document.body.appendChild(appFrame)
+
+    window.setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+            appFrame.remove()
+            window.open(profileUrl, '_blank', 'noopener,noreferrer')
+        }
+    }, 700)
+}
+
 export type AppController = {
     isDragging: boolean
     showGuide: boolean
@@ -246,11 +270,7 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
     }, [activeTab])
 
     const openInstagramAccount = useCallback((username: string) => {
-        const target = window.navigator.userAgent.toLowerCase().includes('mobile')
-            ? `instagram://user?username=${encodeURIComponent(username)}`
-            : `https://www.instagram.com/${encodeURIComponent(username)}/`
-
-        window.open(target, '_blank', 'noopener,noreferrer')
+        openInstagramProfileWithFallback(username)
     }, [])
 
     return {
