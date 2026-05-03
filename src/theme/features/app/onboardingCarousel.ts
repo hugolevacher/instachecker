@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants'
 
 export const onboardingCarouselTheme = tv({
     slots: {
-        root: 'grid w-full justify-items-center gap-8 px-0 sm:gap-10 lg:grid-cols-[15.25rem_20rem] lg:items-center lg:justify-items-start lg:gap-12',
+        root: 'grid w-full touch-pan-y select-none justify-items-center gap-8 px-0 sm:gap-10 lg:grid-cols-[15.25rem_20rem] lg:items-center lg:justify-items-start lg:gap-12',
         phoneColumn: 'w-[12.5rem] shrink-0 sm:w-[13.25rem] lg:w-[15.25rem]',
         phoneFrame: 'relative mx-auto aspect-[1059/2235] w-full overflow-hidden rounded-[1.95rem] border-[7px] border-slate-950 bg-slate-950 shadow-[0_22px_70px_rgba(15,23,42,0.18)]',
         notch: 'absolute left-1/2 top-0 z-20 h-3 w-20 -translate-x-1/2 rounded-b-[0.85rem] bg-slate-950',
@@ -20,7 +20,7 @@ export const onboardingCarouselTheme = tv({
         copyBlock: 'min-h-0 space-y-1.5 sm:min-h-[9.5rem] sm:space-y-2 lg:min-h-[10rem]',
         stepLabel: 'sm:text-xs sm:tracking-[0.3em]',
         title: 'text-lg tracking-tight sm:text-2xl',
-        description: 'text-xs leading-5 sm:text-sm sm:leading-6',
+        description: 'text-xs leading-[1.5] sm:text-sm sm:leading-6',
         dots: 'flex items-center gap-1.5 sm:gap-2',
         dot: 'h-3.5 rounded-full transition-all sm:h-2.5',
         hint: 'tracking-[0.12em] text-slate-400 sm:hidden',

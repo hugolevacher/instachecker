@@ -16,7 +16,7 @@
     "eyebrow": "Load your data",
     "title": "Drop your Instagram ZIP file here",
     "description": "Nothing is uploaded. Your data is processed locally in your browser. Drag and drop your ZIP file or choose it below.",
-    "mobileDescription": "Nothing is uploaded. Your data is processed locally in your browser. Choose your ZIP file below.",
+    "mobileDescription": "Nothing is uploaded. Your data is processed locally in your browser.",
     "select": "Select ZIP file",
     "parsing": "Parsing the archive locally. Large exports may take a moment."
   },
@@ -74,7 +74,7 @@
       },
       {
         "title": "Choose Destination",
-        "description": "Select Export to device.",
+        "description": "Select Export to device (recommended) or use an external service of your choosing.",
         "imageSrc": "/images/step_4_export_to_device.png"
       },
       {
@@ -84,7 +84,7 @@
       },
       {
         "title": "Download File",
-        "description": "Once ready, download the ZIP file to your device.",
+        "description": "Once ready, download the ZIP file to your device and come back to this page. This might take a couple of minutes.",
         "imageSrc": "/images/step_6_download.png"
       }
     ]

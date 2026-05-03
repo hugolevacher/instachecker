@@ -60,6 +60,12 @@ export function OnboardingCarousel({
     const swipeStartRef = useRef<{ x: number; y: number } | null>(null)
 
     const handleSwipeStart = (event: ReactPointerEvent<HTMLDivElement>) => {
+        const target = event.target as HTMLElement | null
+
+        if (target?.closest('button, a, input, textarea, select, [role="button"]')) {
+            return
+        }
+
         event.preventDefault()
         swipeStartRef.current = { x: event.clientX, y: event.clientY }
     }
@@ -96,7 +102,14 @@ export function OnboardingCarousel({
     }
 
     return (
-        <div className={carouselTheme.root()}>
+        <div
+            className={carouselTheme.root()}
+            onPointerDown={handleSwipeStart}
+            onPointerUp={handleSwipeEnd}
+            onPointerCancel={() => {
+                swipeStartRef.current = null
+            }}
+        >
             <div className={carouselTheme.phoneColumn()}>
                 <div className={carouselTheme.phoneFrame()}>
                     <div className={carouselTheme.notch()} />
@@ -135,16 +148,6 @@ export function OnboardingCarousel({
                             </motion.div>
                         ) : null}
                     </AnimatePresence>
-
-                    <div
-                        className={carouselTheme.swipeLayer()}
-                        aria-hidden="true"
-                        onPointerDown={handleSwipeStart}
-                        onPointerUp={handleSwipeEnd}
-                        onPointerCancel={() => {
-                            swipeStartRef.current = null
-                        }}
-                    />
                 </div>
             </div>
 
