@@ -27,9 +27,8 @@ export function RelationshipSection({
     const sectionTheme = relationshipSectionTheme()
     const hasQuery = searchValue.length > 0
 
-    const visibleUsernames = usernames.filter((username) =>
-        username.toLowerCase().includes(searchValue.toLowerCase()),
-    )
+    const query = searchValue.toLowerCase()
+    const visibleUsernames = usernames.filter((username) => username.toLowerCase().includes(query))
 
     useEffect(() => {
         if (!copied) {

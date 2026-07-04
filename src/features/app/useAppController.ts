@@ -40,8 +40,8 @@ function openInstagramProfileWithFallback(username: string) {
     document.body.appendChild(appFrame)
 
     window.setTimeout(() => {
+        appFrame.remove()
         if (document.visibilityState === 'visible') {
-            appFrame.remove()
             window.open(profileUrl, '_blank', 'noopener,noreferrer')
         }
     }, 700)
