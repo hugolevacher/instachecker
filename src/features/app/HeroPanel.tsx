@@ -5,18 +5,42 @@ import { Badge } from '../../components/ui/Badge'
 import { Card } from '../../components/ui/Card'
 import { Text } from '../../components/ui/Text'
 import { UploadZone } from '../../components/UploadZone'
+import { DirectPanel } from './DirectPanel'
 import { heroPanelTheme } from '../../theme/features/app/heroPanel'
+import { directPanelTheme } from '../../theme/features/app/directPanel'
+import type { UploadMode } from './useAppController'
 
 type HeroPanelProps = {
+    mode: UploadMode
+    pasteValue: string
     isParsing: boolean
     error: string | null
+    onModeChange: (mode: UploadMode) => void
+    onPasteChange: (value: string) => void
+    onAnalyzePaste: () => void
+    onOpenExporter: () => void
     onOpenGuide: () => void
     onBrowse: () => void
     onFileSelected: (file: File) => void
 }
 
-export function HeroPanel({ isParsing, error, onOpenGuide, onBrowse, onFileSelected }: HeroPanelProps): ReactElement {
+const modeOrder: UploadMode[] = ['direct', 'zip']
+
+export function HeroPanel({
+    mode,
+    pasteValue,
+    isParsing,
+    error,
+    onModeChange,
+    onPasteChange,
+    onAnalyzePaste,
+    onOpenExporter,
+    onOpenGuide,
+    onBrowse,
+    onFileSelected,
+}: HeroPanelProps): ReactElement {
     const heroTheme = heroPanelTheme()
+    const switchTheme = directPanelTheme()
 
     return (
         <Card className={heroTheme.root()}>
@@ -31,38 +55,63 @@ export function HeroPanel({ isParsing, error, onOpenGuide, onBrowse, onFileSelec
             </Card.Header>
 
             <Card.Body className={heroTheme.body()}>
-                <div className={heroTheme.actions()}>
-                    <Button variant="primary" onClick={onOpenGuide} className={heroTheme.guideButton()}>
-                        {copy.actions.guide}
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={onBrowse}
-                        className={heroTheme.browseButton()}
-                    >
-                        {copy.actions.browse}
-                    </Button>
-
-                    <Text as="p" variant="muted" className={heroTheme.helperText()}>
-                        {copy.upload.mobileDescription}
+                <div className={switchTheme.modeSwitchGroup()}>
+                    <Text as="p" className={switchTheme.modeSwitchLabel()}>
+                        {copy.modes.heading}
                     </Text>
+                    <div className={switchTheme.modeSwitch()} role="tablist" aria-label="Data source">
+                        {modeOrder.map((value) => {
+                            const modeTheme = directPanelTheme({ active: mode === value })
+
+                            return (
+                                <button
+                                    key={value}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={mode === value}
+                                    onClick={() => onModeChange(value)}
+                                    className={modeTheme.modeButton()}
+                                >
+                                    <span className={switchTheme.modeLabelMobile()}>{copy.modes[value].mobileLabel}</span>
+                                    <span className={switchTheme.modeLabelDesktop()}>{copy.modes[value].label}</span>
+                                </button>
+                            )
+                        })}
+                    </div>
                 </div>
 
-                <div className={heroTheme.desktopUpload()}>
-                    <UploadZone isParsing={isParsing} onBrowse={onBrowse} onFileSelected={onFileSelected} />
-                </div>
+                {mode === 'zip' ? (
+                    <>
+                        <Text as="p" variant="body" className={heroTheme.description()}>
+                            {copy.upload.blurb}
+                        </Text>
 
-                {isParsing ? (
-                    <div className={heroTheme.parsingNotice()}>
-                        {copy.upload.parsing}
-                    </div>
-                ) : null}
+                        <div className={heroTheme.actions()}>
+                            <Button variant="primary" onClick={onOpenGuide} className={heroTheme.guideButton()}>
+                                {copy.actions.guide}
+                            </Button>
+                            <Button variant="secondary" onClick={onBrowse} className={heroTheme.browseButton()}>
+                                {copy.actions.browse}
+                            </Button>
+                        </div>
 
-                {error ? (
-                    <div className={heroTheme.errorNotice()}>
-                        {error}
-                    </div>
-                ) : null}
+                        <div className={heroTheme.desktopUpload()}>
+                            <UploadZone isParsing={isParsing} onBrowse={onBrowse} onFileSelected={onFileSelected} />
+                        </div>
+                    </>
+                ) : (
+                    <DirectPanel
+                        pasteValue={pasteValue}
+                        isParsing={isParsing}
+                        onPasteChange={onPasteChange}
+                        onAnalyze={onAnalyzePaste}
+                        onOpenSetup={onOpenExporter}
+                    />
+                )}
+
+                {isParsing ? <div className={heroTheme.parsingNotice()}>{copy.upload.parsing}</div> : null}
+
+                {error ? <div className={heroTheme.errorNotice()}>{error}</div> : null}
             </Card.Body>
 
             <Card.Footer className={heroTheme.footer()}>

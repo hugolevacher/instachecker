@@ -16,9 +16,52 @@
     "eyebrow": "Load your data",
     "title": "Drop your Instagram ZIP file here",
     "description": "Nothing is uploaded. Your data is processed locally in your browser. Drag and drop your ZIP file or choose it below.",
-    "mobileDescription": "Nothing is uploaded. Your data is processed locally in your browser.",
+    "blurb": "Upload the followers and following file you request from Instagram.",
     "select": "Select ZIP file",
     "parsing": "Parsing the archive locally. Large exports may take a moment."
+  },
+  "modes": {
+    "heading": "Two ways to get your data",
+    "direct": { "label": "Fetch live", "mobileLabel": "Fetch" },
+    "zip": { "label": "Upload file", "mobileLabel": "Upload" }
+  },
+  "direct": {
+    "description": "A quick bookmark reads your followers and following straight from Instagram.",
+    "setup": "Set up the exporter",
+    "pasteLabel": "Paste your data",
+    "pastePlaceholder": "Paste what the exporter copied…",
+    "analyze": "Analyze",
+    "analyzing": "Analyzing…"
+  },
+  "bookmarkletGuide": {
+    "title": "Set up the exporter",
+    "intro": "The exporter is a bookmark that runs on instagram.com with your login. Set it up once, then reuse it any time.",
+    "desktopTab": "Desktop",
+    "mobileTab": "Mobile",
+    "installTitle": "1. Install it once",
+    "desktopSteps": [
+      "Drag the “IG Export” button below to the bookmarks bar at the top of your browser.",
+      "Or add a bookmark manually and set its address to the code from “Copy exporter”."
+    ],
+    "mobileSteps": [
+      "Tap “Copy exporter” below.",
+      "Add a new bookmark named “IG Export” and set its address to what you copied."
+    ],
+    "runTitle": "2. Run it any time",
+    "desktopRun": [
+      "Open instagram.com and make sure you're logged in.",
+      "Click the “IG Export” bookmark.",
+      "Press Copy in the popup, then paste it here."
+    ],
+    "mobileRun": [
+      "Open instagram.com and make sure you're logged in.",
+      "Type “IG Export” in the address bar and tap the suggestion.",
+      "Press Copy in the popup, then paste it here."
+    ],
+    "drag": "IG Export",
+    "copy": "Copy exporter",
+    "copied": "Copied!",
+    "done": "Got it"
   },
   "results": {
     "placeholder": "Your results will appear here after you load your data.",

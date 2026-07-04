@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Modal } from '../../components/Modal'
 import { OnboardingCarousel } from '../../components/OnboardingCarousel'
+import { BookmarkletGuide } from '../../components/BookmarkletGuide'
 import { AppHeader } from './AppHeader'
 import { HeroPanel } from './HeroPanel'
 import { ResultsPanel } from './ResultsPanel'
@@ -32,8 +33,14 @@ export function AppPage() {
 
                 <main className={pageTheme.main()}>
                     <HeroPanel
+                        mode={controller.mode}
+                        pasteValue={controller.pasteValue}
                         isParsing={controller.isParsing}
                         error={controller.error}
+                        onModeChange={controller.setMode}
+                        onPasteChange={controller.setPasteValue}
+                        onAnalyzePaste={controller.analyzePaste}
+                        onOpenExporter={controller.openExporter}
                         onOpenGuide={controller.openGuide}
                         onBrowse={controller.handleBrowse}
                         onFileSelected={controller.handleFileSelected}
@@ -87,6 +94,8 @@ export function AppPage() {
                     />
                 </Modal.Body>
             </Modal>
+
+            <BookmarkletGuide open={controller.showExporter} onClose={controller.closeExporter} />
         </div>
     )
 }

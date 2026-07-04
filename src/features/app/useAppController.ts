@@ -47,7 +47,14 @@ function openInstagramProfileWithFallback(username: string) {
     }, 700)
 }
 
+export type UploadMode = 'zip' | 'direct'
+
 export type AppController = {
+    mode: UploadMode
+    pasteValue: string
+    showExporter: boolean
+    openExporter: () => void
+    closeExporter: () => void
     isDragging: boolean
     showGuide: boolean
     slideIndex: number
@@ -64,6 +71,9 @@ export type AppController = {
     guideSlides: typeof copy.guide.slides
     openGuide: () => void
     closeGuide: () => void
+    setMode: (mode: UploadMode) => void
+    setPasteValue: (value: string) => void
+    analyzePaste: () => Promise<void>
     handleBrowse: () => void
     handleFileSelected: (file: File) => Promise<void>
     handleInputChange: (event: ChangeEvent<HTMLInputElement>) => Promise<void>
@@ -85,6 +95,9 @@ type AppControllerRefs = {
 
 export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs): AppController {
     const copyResetTimerRef = useRef<number | null>(null)
+    const [mode, setMode] = useState<UploadMode>('direct')
+    const [pasteValue, setPasteValue] = useState('')
+    const [showExporter, setShowExporter] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [showGuide, setShowGuide] = useState(false)
     const [slideIndex, setSlideIndex] = useState(0)
@@ -98,7 +111,7 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
         mutuals: '',
     })
     const [copiedTab, setCopiedTab] = useState<RelationshipKey | null>(null)
-    const { analysis, error, isParsing, analyzeFile, reset } = useInstagramAnalyzer()
+    const { analysis, error, isParsing, analyzeFile, analyzeText, reset } = useInstagramAnalyzer()
 
     useEffect(() => {
         if (!analysis || isParsing || window.innerWidth >= 768) {
@@ -135,6 +148,9 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
         fileInputRef.current?.click()
     }, [fileInputRef])
 
+    const openExporter = useCallback(() => setShowExporter(true), [])
+    const closeExporter = useCallback(() => setShowExporter(false), [])
+
     const openGuide = useCallback(() => {
         setSlideIndex(0)
         setOverlaySlideIndex(null)
@@ -149,20 +165,33 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
         setSlideIndex(0)
     }, [])
 
+    const resetResultsState = useCallback(() => {
+        reset()
+        setActiveTab('notFollowingBack')
+        setCopiedTab(null)
+        setSearchByTab({
+            notFollowingBack: '',
+            fans: '',
+            mutuals: '',
+        })
+    }, [reset])
+
     const handleFileSelected = useCallback(
         async (file: File) => {
-            reset()
-            setActiveTab('notFollowingBack')
-            setCopiedTab(null)
-            setSearchByTab({
-                notFollowingBack: '',
-                fans: '',
-                mutuals: '',
-            })
+            resetResultsState()
             await analyzeFile(file)
         },
-        [analyzeFile, reset],
+        [analyzeFile, resetResultsState],
     )
+
+    const analyzePaste = useCallback(async () => {
+        if (!pasteValue.trim()) {
+            return
+        }
+
+        resetResultsState()
+        await analyzeText(pasteValue)
+    }, [analyzeText, pasteValue, resetResultsState])
 
     const goToPreviousSlide = useCallback(() => {
         if (overlaySlideIndex !== null) {
@@ -274,6 +303,14 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
     }, [])
 
     return {
+        mode,
+        pasteValue,
+        showExporter,
+        openExporter,
+        closeExporter,
+        setMode,
+        setPasteValue,
+        analyzePaste,
         isDragging,
         showGuide,
         slideIndex,
