@@ -1,15 +1,12 @@
 import JSZip from 'jszip'
 import type { InstagramAnalysis } from './types'
+import { buildAnalysis, normalizeUsername, uniqueSorted } from './buildAnalysis'
 
 type JsonRecord = Record<string, unknown>
 
 const followerFilePattern = /(^|\/)(followers[^/]*\.json)$/i
 const followingFilePattern = /(^|\/)following\.json$/i
 const allowedFolderPattern = /(^|\/)connections\/followers_and_following\//i
-
-function normalizeUsername(value: string) {
-    return value.trim().toLowerCase()
-}
 
 function extractUsername(item: unknown) {
     if (!item || typeof item !== 'object') {
@@ -79,10 +76,6 @@ async function readJsonFile(zip: JSZip, path: string) {
     }
 }
 
-function uniqueSorted(values: Iterable<string>) {
-    return [...new Set(values)].sort((left, right) => left.localeCompare(right))
-}
-
 function collectUsernames(json: unknown) {
     const entries = extractEntries(json)
     const usernames: string[] = []
@@ -119,24 +112,5 @@ export async function analyzeInstagramZip(file: File): Promise<InstagramAnalysis
     const followers = uniqueSorted(followerSets.flatMap((json) => collectUsernames(json)))
     const following = collectUsernames(followingJson)
 
-    const followerLookup = new Set(followers)
-    const followingLookup = new Set(following)
-
-    const mutuals = following.filter((username) => followerLookup.has(username))
-    const notFollowingBack = following.filter((username) => !followerLookup.has(username))
-    const fans = followers.filter((username) => !followingLookup.has(username))
-
-    return {
-        sourceName: file.name,
-        followingCount: following.length,
-        followersCount: followers.length,
-        mutualCount: mutuals.length,
-        notFollowingBackCount: notFollowingBack.length,
-        fansCount: fans.length,
-        following,
-        followers,
-        mutuals,
-        notFollowingBack,
-        fans,
-    }
+    return buildAnalysis(followers, following, file.name)
 }
