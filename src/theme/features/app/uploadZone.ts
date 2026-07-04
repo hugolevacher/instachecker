@@ -7,7 +7,7 @@ export const uploadZoneTheme = tv({
         header: 'space-y-3',
         title: 'max-w-xl',
         description: 'max-w-xl sm:text-base',
-        buttonWrap: 'flex justify-start',
-        button: 'sm:px-5',
+        buttonWrap: 'flex',
+        button: 'w-full sm:px-5',
     },
 })

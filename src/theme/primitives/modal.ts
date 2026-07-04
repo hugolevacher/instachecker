@@ -15,6 +15,7 @@ export const modalTheme = tv({
         size: {
             responsive: { shell: 'max-w-[calc(100vw-2rem)] sm:max-w-[52rem] lg:w-fit lg:max-w-none' },
             wide: { shell: 'max-w-[calc(100vw-2rem)] sm:max-w-[64rem]' },
+            narrow: { shell: 'max-w-[calc(100vw-2rem)] sm:max-w-[30rem]' },
         },
     },
     defaultVariants: {
