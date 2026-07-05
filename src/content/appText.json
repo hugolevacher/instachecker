@@ -22,8 +22,14 @@
   },
   "modes": {
     "heading": "Two ways to get your data",
-    "direct": { "label": "Fetch live", "mobileLabel": "Fetch" },
-    "zip": { "label": "Upload file", "mobileLabel": "Upload" }
+    "direct": {
+      "label": "Fetch live",
+      "mobileLabel": "Fetch"
+    },
+    "zip": {
+      "label": "Upload file",
+      "mobileLabel": "Upload"
+    }
   },
   "direct": {
     "description": "A quick bookmark reads your followers and following straight from Instagram.",
@@ -41,11 +47,11 @@
     "installTitle": "1. Install it once",
     "desktopSteps": [
       "Drag the “IG Export” button below to the bookmarks bar at the top of your browser.",
-      "Or add a bookmark manually and set its address to the code from “Copy exporter”."
+      "Or bookmark this page, rename it “IG Export” and replace its address with the code from “Copy exporter”."
     ],
     "mobileSteps": [
       "Tap “Copy exporter” below.",
-      "Add a new bookmark named “IG Export” and set its address to what you copied."
+      "Bookmark this page, then edit that bookmark: rename it “IG Export” and replace its address with what you copied."
     ],
     "runTitle": "2. Run it any time",
     "desktopRun": [
@@ -91,11 +97,17 @@
       "emptyLabel": "There are no mutual follows in this export."
     }
   ],
+  "support": {
+    "cta": "☕ Support on Ko-fi",
+    "url": "https://ko-fi.com/hugolevacher"
+  },
   "credits": {
     "label": "Open source on",
     "repoLabel": "GitHub",
     "repoUrl": "https://github.com/hugolevacher/instachecker",
-    "builtBy": "Built by Hugo Levacher"
+    "builtByLabel": "Built by",
+    "authorName": "Hugo Levacher",
+    "authorUrl": "https://www.instagram.com/hugo_levacher/"
   },
   "guide": {
     "title": "How to export your Instagram data",

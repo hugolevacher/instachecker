@@ -115,18 +115,37 @@ export function HeroPanel({
             </Card.Body>
 
             <Card.Footer className={heroTheme.footer()}>
-                <Text as="p" variant="caption" className={heroTheme.footerText()}>
-                    {copy.credits.label}{' '}
+                <div className={heroTheme.footerGroup()}>
                     <a
-                        href={copy.credits.repoUrl}
+                        href={copy.support.url}
                         target="_blank"
                         rel="noreferrer"
-                        className={heroTheme.footerLink()}
+                        className={heroTheme.supportButton()}
                     >
-                        {copy.credits.repoLabel}
-                    </a>{' '}
-                    · {copy.credits.builtBy}
-                </Text>
+                        {copy.support.cta}
+                    </a>
+
+                    <Text as="p" variant="caption" className={heroTheme.footerText()}>
+                        {copy.credits.label}{' '}
+                        <a
+                            href={copy.credits.repoUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={heroTheme.footerLink()}
+                        >
+                            {copy.credits.repoLabel}
+                        </a>{' '}
+                        · {copy.credits.builtByLabel}{' '}
+                        <a
+                            href={copy.credits.authorUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={heroTheme.footerLink()}
+                        >
+                            {copy.credits.authorName}
+                        </a>
+                    </Text>
+                </div>
             </Card.Footer>
         </Card>
     )
