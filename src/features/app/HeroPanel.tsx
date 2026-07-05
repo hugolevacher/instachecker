@@ -122,6 +122,7 @@ export function HeroPanel({
                         rel="noreferrer"
                         className={heroTheme.supportButton()}
                     >
+                        <img src="/kofi-cup.png" alt="" aria-hidden="true" className={heroTheme.supportCup()} />
                         {copy.support.cta}
                     </a>
 
