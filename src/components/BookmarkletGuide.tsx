@@ -13,8 +13,11 @@ function detectMobile() {
         return false
     }
 
+    // Width matters as much as pointer type: the desktop steps tell you to drag a
+    // pill onto a bookmarks bar, which no narrow viewport has.
     const coarsePointer = window.matchMedia?.('(pointer: coarse)').matches ?? false
-    return coarsePointer || /mobi|android|iphone|ipad/i.test(navigator.userAgent)
+    const narrow = window.innerWidth < 768
+    return narrow || coarsePointer || /mobi|android|iphone|ipad/i.test(navigator.userAgent)
 }
 
 type BookmarkletGuideProps = {
@@ -56,7 +59,12 @@ export function BookmarkletGuide({ open, onClose }: BookmarkletGuideProps) {
                         {guide.intro}
                     </Text>
 
-                    <div className={theme.tabs()}>
+                    <p className={theme.browserNote()}>
+                        <span aria-hidden="true">⚠️</span>
+                        {guide.browserNote}
+                    </p>
+
+                    <div className={theme.tabs()} role="tablist" aria-label="Platform">
                         {(['desktop', 'mobile'] as const).map((value) => {
                             const tabTheme = bookmarkletGuideTheme({ active: platform === value })
 
@@ -64,6 +72,8 @@ export function BookmarkletGuide({ open, onClose }: BookmarkletGuideProps) {
                                 <button
                                     key={value}
                                     type="button"
+                                    role="tab"
+                                    aria-selected={platform === value}
                                     onClick={() => setPlatform(value)}
                                     className={tabTheme.tab()}
                                 >

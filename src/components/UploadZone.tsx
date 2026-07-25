@@ -1,7 +1,5 @@
 import type { DragEvent, KeyboardEvent } from 'react'
 import copy from '../content/appText.json'
-import { Button } from './Button'
-import { Badge } from './ui/Badge'
 import { Card } from './ui/Card'
 import { uploadZoneTheme } from '../theme/features/app/uploadZone'
 
@@ -43,29 +41,25 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
             className={uploadTheme.root()}
         >
             <Card.Body className={uploadTheme.body()}>
+                <svg viewBox="0 0 24 24" className={uploadTheme.icon()} aria-hidden="true">
+                    <path
+                        d="M12 16V4m0 0L8 8m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.75"
+                    />
+                </svg>
+
                 <Card.Header className={uploadTheme.header()}>
-                    <Badge>{copy.upload.eyebrow}</Badge>
-                    <Card.Title as="h2" variant="heading" className={uploadTheme.title()}>
-                        {copy.upload.title}
+                    <Card.Title as="h3" variant="subheading" className={uploadTheme.title()}>
+                        {isParsing ? copy.upload.parsing : copy.upload.title}
                     </Card.Title>
-                    <Card.Description className={uploadTheme.description()}>
+                    <Card.Description variant="caption" className={uploadTheme.description()}>
                         {copy.upload.description}
                     </Card.Description>
                 </Card.Header>
-
-                <div className={uploadTheme.buttonWrap()}>
-                    <Button
-                        variant="primary"
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            onBrowse()
-                        }}
-                        disabled={isParsing}
-                        className={uploadTheme.button()}
-                    >
-                        {isParsing ? 'Parsing archive...' : copy.upload.select}
-                    </Button>
-                </div>
             </Card.Body>
         </Card>
     )

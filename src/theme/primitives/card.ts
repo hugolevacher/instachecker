@@ -11,10 +11,10 @@ export const cardTheme = tv({
     },
     variants: {
         variant: {
-            default: { root: 'rounded-[2.25rem] border border-white/80 bg-white/75 shadow-[0_24px_80px_rgba(15,23,42,0.08)]' },
-            subtle: { root: 'rounded-4xl border border-slate-200/80 bg-white/80 shadow-sm' },
-            dashed: { root: 'rounded-4xl border-[3px] border-dotted border-slate-300/90 bg-white/80 shadow-sm' },
-            elevated: { root: 'rounded-[2.5rem] border border-white/90 bg-white/90 shadow-[0_30px_100px_rgba(15,23,42,0.12)]' },
+            default: { root: 'rounded-3xl border border-[#eae7ee] bg-white shadow-[0_1px_3px_rgba(26,22,32,0.04),0_12px_32px_-12px_rgba(26,22,32,0.10)]' },
+            subtle: { root: 'rounded-2xl border border-[#eae7ee] bg-white shadow-[0_1px_2px_rgba(26,22,32,0.04)]' },
+            dashed: { root: 'rounded-xl border-2 border-dashed border-[#ddd8e2] bg-[#fcfbfd]' },
+            elevated: { root: 'rounded-3xl border border-[#eae7ee] bg-white shadow-[0_2px_6px_rgba(26,22,32,0.05),0_20px_48px_-16px_rgba(26,22,32,0.14)]' },
         },
         padding: {
             none: { root: '' },

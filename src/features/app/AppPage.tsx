@@ -36,6 +36,7 @@ export function AppPage() {
                         mode={controller.mode}
                         pasteValue={controller.pasteValue}
                         isParsing={controller.isParsing}
+                        hasResults={controller.analysis !== null}
                         error={controller.error}
                         onModeChange={controller.setMode}
                         onPasteChange={controller.setPasteValue}
@@ -95,7 +96,12 @@ export function AppPage() {
                 </Modal.Body>
             </Modal>
 
-            <BookmarkletGuide open={controller.showExporter} onClose={controller.closeExporter} />
+            {/* Keyed on open so platform detection re-runs each time the guide is shown. */}
+            <BookmarkletGuide
+                key={String(controller.showExporter)}
+                open={controller.showExporter}
+                onClose={controller.closeExporter}
+            />
         </div>
     )
 }

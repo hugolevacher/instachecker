@@ -11,6 +11,7 @@ type RelationshipCopy = {
     key: RelationshipKey
     label: string
     mobileLabel: string
+    hint: string
     emptyLabel: string
 }
 
@@ -56,7 +57,7 @@ export function ResultsPanel({
             {analysis && activeSection ? (
                 <>
                     <Card.Header>
-                        <div className={panelTheme.tabs()}>
+                        <div className={panelTheme.tabs()} role="tablist" aria-label="Relationship">
                             {relationshipCopy.map((relationship) => {
                                 const isActive = activeTab === relationship.key
                                 const tabTheme = resultsPanelTheme({ active: isActive })
@@ -65,21 +66,30 @@ export function ResultsPanel({
                                     <button
                                         key={relationship.key}
                                         type="button"
+                                        role="tab"
+                                        aria-selected={isActive}
                                         onClick={() => onTabChange(relationship.key)}
                                         className={tabTheme.tabButton()}
                                     >
-                                        <span className={tabTheme.tabLabelMobile()}>
-                                            {relationship.mobileLabel}
-                                        </span>
-                                        <span className={tabTheme.tabLabelDesktop()}>
-                                            {relationship.label}
-                                        </span>
                                         <span className={tabTheme.tabCount()}>
                                             {counts?.[relationship.key]}
+                                        </span>
+                                        <span className={tabTheme.tabLabel()}>
+                                            <span className="sm:hidden">{relationship.mobileLabel}</span>
+                                            <span className="hidden sm:inline">{relationship.label}</span>
                                         </span>
                                     </button>
                                 )
                             })}
+                        </div>
+
+                        <div className={panelTheme.hintRow()}>
+                            <Text as="p" className={panelTheme.tabHint()}>
+                                {activeSection.hint}
+                            </Text>
+                            <Text as="p" className={panelTheme.tabTotal()}>
+                                {counts?.[activeTab]} total
+                            </Text>
                         </div>
                     </Card.Header>
 
@@ -96,9 +106,20 @@ export function ResultsPanel({
                     </Card.Body>
                 </>
             ) : (
-                <Text as="p" variant="muted" className={panelTheme.placeholder()}>
-                    {copy.results.placeholder}
-                </Text>
+                <div className={panelTheme.empty()}>
+                    <Text as="p" variant="muted" className={panelTheme.placeholder()}>
+                        {copy.results.placeholder}
+                    </Text>
+
+                    <ul className={panelTheme.previewList()}>
+                        {relationshipCopy.map((relationship) => (
+                            <li key={relationship.key} className={panelTheme.previewItem()}>
+                                <span className={panelTheme.previewLabel()}>{relationship.label}</span>
+                                <span className={panelTheme.previewHint()}>{relationship.hint}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             )}
         </Card>
     )

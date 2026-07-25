@@ -1,17 +1,17 @@
 import { tv, type VariantProps } from 'tailwind-variants'
 
 export const buttonTheme = tv({
-    base: 'inline-flex items-center justify-center gap-2 rounded-2xl font-semibold transition duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e1306c] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60',
+    base: 'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl font-semibold transition duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e1306c] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
     variants: {
         variant: {
-            primary: 'bg-gradient-to-r from-[#f77737] via-[#e1306c] to-[#c13584] text-white shadow-lg shadow-pink-500/20 hover:brightness-105',
-            secondary: 'border border-slate-200 bg-white/80 text-slate-900 shadow-sm hover:border-slate-300 hover:bg-white',
-            ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+            primary: 'bg-[#e1306c] text-white shadow-[0_1px_2px_rgba(26,22,32,0.10)] hover:bg-[#c72a5f]',
+            secondary: 'border border-[#ddd8e2] bg-white text-[#1a1620] hover:border-[#c6bfcf] hover:bg-[#faf9fb]',
+            ghost: 'text-[#6b6474] hover:bg-[#f3f0f5] hover:text-[#1a1620]',
         },
         size: {
-            none: 'p-0 text-xs',
-            sm: 'px-3 py-2 text-xs',
-            md: 'px-4 py-3 text-sm',
+            none: 'min-h-0 p-0 text-xs',
+            sm: 'min-h-9 px-3 py-1.5 text-xs',
+            md: 'px-4 py-2.5 text-sm',
             lg: 'px-5 py-3 text-base',
         },
     },

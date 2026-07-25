@@ -1,57 +1,62 @@
 {
   "brand": {
     "title": "Instagram Relationship Analyzer",
-    "trust": "No login • No tracking • No data stored"
+    "trust": "No login. Nothing leaves your device."
   },
   "hero": {
     "eyebrow": "Private by design",
     "headline": "See who follows you back–and who doesn’t",
-    "description": "Load your Instagram data and get a clear follower breakdown in seconds. Everything stays on your device."
+    "description": "Everything runs on your device. Nothing is uploaded."
   },
   "actions": {
-    "guide": "How to get your data",
-    "browse": "Select ZIP file"
+    "guide": "Show me how",
+    "browse": "Choose ZIP file"
   },
   "upload": {
-    "eyebrow": "Load your data",
-    "title": "Drop your Instagram ZIP file here",
-    "description": "Nothing is uploaded. Your data is processed locally in your browser. Drag and drop your ZIP file or choose it below.",
-    "blurb": "Upload the followers and following file you request from Instagram.",
-    "select": "Select ZIP file",
-    "parsing": "Parsing the archive locally. Large exports may take a moment."
+    "title": "Drop your ZIP here",
+    "description": "Or click to browse. Processed on your device.",
+    "stepOneTitle": "Ask Instagram for your data",
+    "blurb": "Instagram sends you a ZIP of your followers and following. Takes minutes to hours.",
+    "stepTwoTitle": "Add the ZIP file",
+    "select": "Choose ZIP file",
+    "parsing": "Reading the archive on your device…"
   },
   "modes": {
-    "heading": "Two ways to get your data",
+    "heading": "Pick a method",
     "direct": {
-      "label": "Fetch live",
-      "mobileLabel": "Fetch"
+      "label": "Fetch it now",
+      "badge": "~2 min",
+      "detail": "One-time setup in Chrome. Results right away."
     },
     "zip": {
-      "label": "Upload file",
-      "mobileLabel": "Upload"
+      "label": "Use Instagram's export",
+      "badge": "No setup",
+      "detail": "Wait for Instagram to send your file. Works in any browser."
     }
   },
   "direct": {
-    "description": "A quick bookmark reads your followers and following straight from Instagram.",
-    "setup": "Set up the exporter",
-    "pasteLabel": "Paste your data",
-    "pastePlaceholder": "Paste what the exporter copied…",
+    "stepOneTitle": "Set up the exporter",
+    "description": "A bookmark that reads your lists straight from Instagram. Set it up once, reuse it any time.",
+    "setup": "Show me how",
+    "stepTwoTitle": "Paste what it copied",
+    "pastePlaceholder": "Paste here…",
     "analyze": "Analyze",
     "analyzing": "Analyzing…"
   },
   "bookmarkletGuide": {
     "title": "Set up the exporter",
-    "intro": "The exporter is a bookmark that runs on instagram.com with your login. Set it up once, then reuse it any time.",
+    "intro": "The exporter is a bookmark that runs on instagram.com while you're logged in. Set it up once, then reuse it any time.",
+    "browserNote": "Use Google Chrome. Other browsers may block the bookmark from running.",
     "desktopTab": "Desktop",
     "mobileTab": "Mobile",
     "installTitle": "1. Install it once",
     "desktopSteps": [
-      "Drag the “IG Export” button below to the bookmarks bar at the top of your browser.",
+      "Drag the “IG Export” button below to the bookmarks bar at the top of Chrome. Press Ctrl+Shift+B (Cmd+Shift+B on Mac) if you don't see the bar.",
       "Or bookmark this page, rename it “IG Export” and replace its address with the code from “Copy exporter”."
     ],
     "mobileSteps": [
       "Tap “Copy exporter” below.",
-      "Bookmark this page, then edit that bookmark: rename it “IG Export” and replace its address with what you copied."
+      "In Chrome, bookmark this page, then edit that bookmark: rename it “IG Export” and replace its address with what you copied."
     ],
     "runTitle": "2. Run it any time",
     "desktopRun": [
@@ -70,7 +75,7 @@
     "done": "Got it"
   },
   "results": {
-    "placeholder": "Your results will appear here after you load your data.",
+    "placeholder": "Once your data loads, you'll get three lists:",
     "copy": "Copy",
     "copied": "Copied!",
     "search": "Search accounts",
@@ -80,20 +85,23 @@
   "relationships": [
     {
       "key": "notFollowingBack",
-      "label": "No Followback",
-      "mobileLabel": "No Followback",
-      "emptyLabel": "Everyone in this list follows you back already."
+      "label": "Not following back",
+      "mobileLabel": "No followback",
+      "hint": "You follow them, they don't follow you.",
+      "emptyLabel": "Everyone you follow follows you back."
     },
     {
       "key": "fans",
       "label": "Fans",
       "mobileLabel": "Fans",
+      "hint": "They follow you, you don't follow them.",
       "emptyLabel": "No fans detected in this export."
     },
     {
       "key": "mutuals",
       "label": "Mutuals",
       "mobileLabel": "Mutuals",
+      "hint": "You follow each other.",
       "emptyLabel": "There are no mutual follows in this export."
     }
   ],

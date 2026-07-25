@@ -2,14 +2,16 @@ import { tv, type VariantProps } from 'tailwind-variants'
 
 export const modalTheme = tv({
     slots: {
-        backdrop: 'fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 py-6 backdrop-blur-sm',
-        shell: 'relative z-10 w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl shadow-slate-900/20',
+        backdrop: 'fixed inset-0 z-50 flex items-center justify-center bg-[#1a1620]/50 px-4 py-6 backdrop-blur-sm',
+        // Cap to the viewport and scroll the body — long guides must never push
+        // their footer button off-screen with no way to reach it.
+        shell: 'relative z-10 flex max-h-full w-full flex-col overflow-hidden rounded-2xl border border-[#eae7ee] bg-white shadow-[0_24px_64px_-16px_rgba(26,22,32,0.35)]',
         closeOverlay: 'absolute inset-0 rounded-none bg-transparent p-0 shadow-none hover:bg-transparent',
-        header: 'flex items-center justify-between border-b border-slate-100 px-3 py-2 sm:px-6 sm:py-4',
+        header: 'flex shrink-0 items-center justify-between border-b border-[#f1eff3] px-4 py-3 sm:px-6 sm:py-4',
         titleGroup: 'flex flex-col',
-        overline: 'text-slate-400',
-        title: 'mt-1 hidden sm:block',
-        body: 'px-4 py-4 sm:px-14 sm:py-10',
+        overline: 'text-[#a49dad]',
+        title: 'mt-0.5 hidden sm:block',
+        body: 'min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-10 sm:py-8',
     },
     variants: {
         size: {

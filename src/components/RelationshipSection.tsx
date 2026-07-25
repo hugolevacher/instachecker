@@ -44,46 +44,53 @@ export function RelationshipSection({
 
     return (
         <section className={sectionTheme.root()}>
-            <div className={sectionTheme.actions()}>
-                <Button variant="ghost" onClick={onCopy} className={sectionTheme.copyButton()}>
-                    {copied ? copy.results.copied : copy.results.copy}
+            <div className={sectionTheme.toolbar()}>
+                <div className={sectionTheme.searchBox()}>
+                    <label className={sectionTheme.searchLabel()} htmlFor="relationship-search">
+                        {copy.results.search}
+                    </label>
+                    <div className="relative">
+                        <input
+                            id="relationship-search"
+                            type="search"
+                            value={searchValue}
+                            onChange={(event) => onSearchChange(event.target.value)}
+                            placeholder={copy.results.search}
+                            className={sectionTheme.searchInput()}
+                        />
+                        {hasQuery ? (
+                            <button
+                                type="button"
+                                onClick={() => onSearchChange('')}
+                                aria-label={copy.results.clearSearch}
+                                className={sectionTheme.clearButton()}
+                            >
+                                <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+                                    <path
+                                        d="M7 7l10 10M17 7L7 17"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2.25"
+                                    />
+                                </svg>
+                            </button>
+                        ) : null}
+                    </div>
+                </div>
+
+                <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={onCopy}
+                    disabled={usernames.length === 0}
+                    className={sectionTheme.copyButton()}
+                >
+                    {copied ? copy.results.copied : `${copy.results.copy} all`}
                 </Button>
             </div>
 
-            <div className={sectionTheme.searchBox()}>
-                <label className={sectionTheme.searchLabel()} htmlFor="relationship-search">
-                    {copy.results.search}
-                </label>
-                <div className="relative">
-                    <input
-                        id="relationship-search"
-                        type="search"
-                        value={searchValue}
-                        onChange={(event) => onSearchChange(event.target.value)}
-                        placeholder={copy.results.search}
-                        className={sectionTheme.searchInput()}
-                    />
-                    {hasQuery ? (
-                        <button
-                            type="button"
-                            onClick={() => onSearchChange('')}
-                            aria-label={copy.results.clearSearch}
-                            className={sectionTheme.clearButton()}
-                        >
-                            <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
-                                <path
-                                    d="M7 7l10 10M17 7L7 17"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2.25"
-                                />
-                            </svg>
-                        </button>
-                    ) : null}
-                </div>
-            </div>
 
             <div className={sectionTheme.listWrapper()}>
                 <div className={sectionTheme.scrollArea()}>
@@ -98,11 +105,13 @@ export function RelationshipSection({
                                             <span className={sectionTheme.username()}>@{username}</span>
                                             <Button
                                                 variant="secondary"
+                                                size="sm"
                                                 onClick={() => {
                                                     setPressedUsername(username)
                                                     onOpenAccount(username)
                                                 }}
                                                 className={itemTheme.openButton()}
+                                                aria-label={`Open @${username} on Instagram`}
                                             >
                                                 Open
                                             </Button>

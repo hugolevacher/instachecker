@@ -1,5 +1,5 @@
 import { useRef, type PointerEvent as ReactPointerEvent } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Button } from './Button'
 import { Text } from './ui/Text'
 import { onboardingCarouselTheme } from '../theme/features/app/onboardingCarousel'
@@ -55,6 +55,7 @@ export function OnboardingCarousel({
     onTransitionEnd,
 }: OnboardingCarouselProps) {
     const carouselTheme = onboardingCarouselTheme()
+    const reduceMotion = useReducedMotion()
     const current = slides[baseIndex]
     const overlay = overlayIndex !== null ? slides[overlayIndex] : null
     const swipeStartRef = useRef<{ x: number; y: number } | null>(null)
@@ -124,7 +125,6 @@ export function OnboardingCarousel({
                         draggable={false}
                         className={carouselTheme.image()}
                     />
-                    <div className={carouselTheme.shade()} />
 
                     <AnimatePresence initial={false} custom={direction}>
                         {overlay ? (
@@ -134,7 +134,7 @@ export function OnboardingCarousel({
                                 variants={slideVariants}
                                 initial={overlayMode === 'exit' ? 'center' : 'enter'}
                                 animate={overlayMode === 'exit' ? 'exit' : 'center'}
-                                transition={{ type: 'tween', ease: 'easeInOut', duration: 0.28 }}
+                                transition={{ type: 'tween', ease: 'easeInOut', duration: reduceMotion ? 0 : 0.28 }}
                                 onAnimationComplete={onTransitionEnd}
                                 className={carouselTheme.overlay()}
                             >
@@ -144,8 +144,7 @@ export function OnboardingCarousel({
                                     draggable={false}
                                     className={carouselTheme.overlayImage()}
                                 />
-                                <div className={carouselTheme.shade()} />
-                            </motion.div>
+                                        </motion.div>
                         ) : null}
                     </AnimatePresence>
                 </div>
@@ -174,23 +173,34 @@ export function OnboardingCarousel({
                                     key={slide.title}
                                     type="button"
                                     onClick={() => onJump(slideIndex)}
-                                    className={dotTheme.dot()}
-                                    aria-label={`Go to slide ${slideIndex + 1}`}
-                                />
+                                    className={carouselTheme.dotHit()}
+                                    aria-label={`Go to step ${slideIndex + 1}`}
+                                    aria-current={slideIndex === baseIndex}
+                                >
+                                    <span className={dotTheme.dot()} />
+                                </button>
                             )
                         })}
                     </div>
 
                     <Text as="p" variant="caption" className={carouselTheme.hint()}>
-                        Swipe left or right to browse.
+                        Tap the buttons or swipe to browse.
                     </Text>
 
                     <div className={carouselTheme.actions()}>
-                        <Button onClick={onPrevious} disabled={isFirstSlide}>
-                            Previous
+                        <Button
+                            onClick={onPrevious}
+                            disabled={isFirstSlide}
+                            className={carouselTheme.actionButton()}
+                        >
+                            Back
                         </Button>
-                        <Button variant="primary" onClick={isLastSlide ? onDone : onNext}>
-                            {isLastSlide ? 'Done!' : 'Next'}
+                        <Button
+                            variant="primary"
+                            onClick={isLastSlide ? onDone : onNext}
+                            className={carouselTheme.actionButton()}
+                        >
+                            {isLastSlide ? 'Done' : 'Next'}
                         </Button>
                     </div>
                 </div>
