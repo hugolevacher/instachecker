@@ -3,22 +3,6 @@ import copy from '../../content/appText.json'
 import { useInstagramAnalyzer } from '../../hooks/useInstagramAnalyzer'
 import type { RelationshipKey } from './types'
 
-function getGuideDirection(previousIndex: number, nextIndex: number, total: number) {
-    if (previousIndex === nextIndex) {
-        return 0
-    }
-
-    if ((previousIndex + 1) % total === nextIndex) {
-        return 1
-    }
-
-    if ((previousIndex - 1 + total) % total === nextIndex) {
-        return -1
-    }
-
-    return nextIndex > previousIndex ? 1 : -1
-}
-
 async function copyUsernames(usernames: string[]) {
     await navigator.clipboard.writeText(usernames.join('\n'))
 }
@@ -49,60 +33,24 @@ function openInstagramProfileWithFallback(username: string) {
 
 export type UploadMode = 'zip' | 'direct'
 
-export type AppController = {
-    mode: UploadMode
-    pasteValue: string
-    showExporter: boolean
-    openExporter: () => void
-    closeExporter: () => void
-    isDragging: boolean
-    showGuide: boolean
-    slideIndex: number
-    overlaySlideIndex: number | null
-    overlayMode: 'enter' | 'exit' | null
-    slideDirection: number
-    activeTab: RelationshipKey
-    activeSearch: string
-    copiedTab: RelationshipKey | null
-    analysis: ReturnType<typeof useInstagramAnalyzer>['analysis']
-    error: ReturnType<typeof useInstagramAnalyzer>['error']
-    isParsing: boolean
-    guideTitle: string
-    guideSlides: typeof copy.guide.slides
-    openGuide: () => void
-    closeGuide: () => void
-    setMode: (mode: UploadMode) => void
-    setPasteValue: (value: string) => void
-    analyzePaste: () => Promise<void>
-    handleBrowse: () => void
-    handleFileSelected: (file: File) => Promise<void>
-    handleInputChange: (event: ChangeEvent<HTMLInputElement>) => Promise<void>
-    goToPreviousSlide: () => void
-    goToNextSlide: () => void
-    jumpToSlide: (nextIndex: number) => void
-    handleTransitionEnd: () => void
-    handleCopy: (usernames: string[]) => Promise<void>
-    copyActiveTab: () => Promise<void>
-    updateActiveSearch: (value: string) => void
-    setActiveTab: (tab: RelationshipKey) => void
-    openInstagramAccount: (username: string) => void
-}
+// Inferred from the hook's return value — a hand-written mirror only drifts.
+export type AppController = ReturnType<typeof useAppController>
 
 type AppControllerRefs = {
     fileInputRef: RefObject<HTMLInputElement | null>
     resultsRef: RefObject<HTMLElement | null>
 }
 
-export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs): AppController {
+export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs) {
     const copyResetTimerRef = useRef<number | null>(null)
     const [mode, setMode] = useState<UploadMode>('direct')
     const [pasteValue, setPasteValue] = useState('')
     const [showExporter, setShowExporter] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [showGuide, setShowGuide] = useState(false)
+    // AnimatePresence choreographs the slide transition from the index alone;
+    // direction only tells it which way to animate.
     const [slideIndex, setSlideIndex] = useState(0)
-    const [overlaySlideIndex, setOverlaySlideIndex] = useState<number | null>(null)
-    const [overlayMode, setOverlayMode] = useState<'enter' | 'exit' | null>(null)
     const [slideDirection, setSlideDirection] = useState(1)
     const [activeTab, setActiveTab] = useState<RelationshipKey>('notFollowingBack')
     const [searchByTab, setSearchByTab] = useState<Record<RelationshipKey, string>>({
@@ -120,6 +68,12 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
 
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, [analysis, isParsing, resultsRef])
+
+    useEffect(() => () => {
+        if (copyResetTimerRef.current) {
+            window.clearTimeout(copyResetTimerRef.current)
+        }
+    }, [])
 
     useEffect(() => {
         const handleWindowDragEnter = () => setIsDragging(true)
@@ -142,7 +96,7 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
             window.removeEventListener('drop', handleWindowDrop)
             window.removeEventListener('dragend', handleWindowDragEnd)
         }
-    }, [resultsRef])
+    }, [])
 
     const handleBrowse = useCallback(() => {
         fileInputRef.current?.click()
@@ -153,15 +107,12 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
 
     const openGuide = useCallback(() => {
         setSlideIndex(0)
-        setOverlaySlideIndex(null)
-        setOverlayMode(null)
+        setSlideDirection(1)
         setShowGuide(true)
     }, [])
 
     const closeGuide = useCallback(() => {
         setShowGuide(false)
-        setOverlaySlideIndex(null)
-        setOverlayMode(null)
         setSlideIndex(0)
     }, [])
 
@@ -194,61 +145,35 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
     }, [analyzeText, pasteValue, resetResultsState])
 
     const goToPreviousSlide = useCallback(() => {
-        if (overlaySlideIndex !== null) {
-            return
-        }
-
         if (slideIndex === 0) {
             return
         }
 
-        const previousIndex = slideIndex - 1
         setSlideDirection(-1)
-        setSlideIndex(previousIndex)
-        setOverlayMode('exit')
-        setOverlaySlideIndex(slideIndex)
-    }, [overlaySlideIndex, slideIndex])
+        setSlideIndex(slideIndex - 1)
+    }, [slideIndex])
 
     const goToNextSlide = useCallback(() => {
-        if (overlaySlideIndex !== null) {
-            return
-        }
-
         if (slideIndex === copy.guide.slides.length - 1) {
             closeGuide()
             return
         }
 
         setSlideDirection(1)
-        setOverlayMode('enter')
-        setOverlaySlideIndex(slideIndex + 1)
-    }, [closeGuide, overlaySlideIndex, slideIndex])
+        setSlideIndex(slideIndex + 1)
+    }, [closeGuide, slideIndex])
 
     const jumpToSlide = useCallback(
         (nextIndex: number) => {
-            if (overlaySlideIndex !== null || nextIndex === slideIndex) {
+            if (nextIndex === slideIndex) {
                 return
             }
 
-            setSlideDirection(getGuideDirection(slideIndex, nextIndex, copy.guide.slides.length) || slideDirection)
-            setOverlayMode('enter')
-            setOverlaySlideIndex(nextIndex)
+            setSlideDirection(nextIndex > slideIndex ? 1 : -1)
+            setSlideIndex(nextIndex)
         },
-        [overlaySlideIndex, slideDirection, slideIndex],
+        [slideIndex],
     )
-
-    const handleTransitionEnd = useCallback(() => {
-        if (overlaySlideIndex === null) {
-            return
-        }
-
-        if (overlayMode === 'enter') {
-            setSlideIndex(overlaySlideIndex)
-        }
-
-        setOverlaySlideIndex(null)
-        setOverlayMode(null)
-    }, [overlayMode, overlaySlideIndex])
 
     const handleInputChange = useCallback(
         async (event: ChangeEvent<HTMLInputElement>) => {
@@ -314,8 +239,6 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
         isDragging,
         showGuide,
         slideIndex,
-        overlaySlideIndex,
-        overlayMode,
         slideDirection,
         activeTab,
         activeSearch,
@@ -333,7 +256,6 @@ export function useAppController({ fileInputRef, resultsRef }: AppControllerRefs
         goToPreviousSlide,
         goToNextSlide,
         jumpToSlide,
-        handleTransitionEnd,
         handleCopy,
         copyActiveTab,
         updateActiveSearch,

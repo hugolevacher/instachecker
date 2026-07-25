@@ -53,7 +53,7 @@ export function ResultsPanel({
         : null
 
     return (
-        <Card variant="subtle" padding="none" className={panelTheme.root()}>
+        <Card variant="subtle" className={panelTheme.root()}>
             {analysis && activeSection ? (
                 <>
                     <Card.Header>

@@ -13,8 +13,6 @@ export type Slide = {
 type OnboardingCarouselProps = {
     slides: Slide[]
     baseIndex: number
-    overlayIndex: number | null
-    overlayMode: 'enter' | 'exit' | null
     direction: number
     isFirstSlide: boolean
     isLastSlide: boolean
@@ -22,7 +20,6 @@ type OnboardingCarouselProps = {
     onNext: () => void
     onDone: () => void
     onJump: (index: number) => void
-    onTransitionEnd: () => void
 }
 
 const slideVariants = {
@@ -43,8 +40,6 @@ const slideVariants = {
 export function OnboardingCarousel({
     slides,
     baseIndex,
-    overlayIndex,
-    overlayMode,
     direction,
     isFirstSlide,
     isLastSlide,
@@ -52,12 +47,10 @@ export function OnboardingCarousel({
     onNext,
     onDone,
     onJump,
-    onTransitionEnd,
 }: OnboardingCarouselProps) {
     const carouselTheme = onboardingCarouselTheme()
     const reduceMotion = useReducedMotion()
     const current = slides[baseIndex]
-    const overlay = overlayIndex !== null ? slides[overlayIndex] : null
     const swipeStartRef = useRef<{ x: number; y: number } | null>(null)
 
     const handleSwipeStart = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -119,33 +112,20 @@ export function OnboardingCarousel({
                     <div className={carouselTheme.sideMid()} />
                     <div className={carouselTheme.sideLeft()} />
 
-                    <img
-                        src={current.imageSrc}
-                        alt={current.title}
-                        draggable={false}
-                        className={carouselTheme.image()}
-                    />
-
                     <AnimatePresence initial={false} custom={direction}>
-                        {overlay ? (
-                            <motion.div
-                                key={`${overlayMode}-${overlayIndex}`}
-                                custom={direction}
-                                variants={slideVariants}
-                                initial={overlayMode === 'exit' ? 'center' : 'enter'}
-                                animate={overlayMode === 'exit' ? 'exit' : 'center'}
-                                transition={{ type: 'tween', ease: 'easeInOut', duration: reduceMotion ? 0 : 0.28 }}
-                                onAnimationComplete={onTransitionEnd}
-                                className={carouselTheme.overlay()}
-                            >
-                                <img
-                                    src={overlay.imageSrc}
-                                    alt={overlay.title}
-                                    draggable={false}
-                                    className={carouselTheme.overlayImage()}
-                                />
-                                        </motion.div>
-                        ) : null}
+                        <motion.img
+                            key={current.imageSrc}
+                            src={current.imageSrc}
+                            alt={current.title}
+                            draggable={false}
+                            custom={direction}
+                            variants={slideVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{ type: 'tween', ease: 'easeInOut', duration: reduceMotion ? 0 : 0.28 }}
+                            className={carouselTheme.image()}
+                        />
                     </AnimatePresence>
                 </div>
             </div>

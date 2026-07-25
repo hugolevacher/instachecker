@@ -7,7 +7,7 @@ import { cardTheme } from '../../theme/primitives/card'
 
 type CardTitleProps = Omit<TextProps, 'as' | 'variant'> & {
     as?: 'h1' | 'h2' | 'h3' | 'h4'
-    variant?: 'title' | 'heading' | 'subheading'
+    variant?: 'title' | 'subheading'
     children: ReactNode
     className?: string
 }
@@ -54,8 +54,8 @@ type CardCompound = ((props: CardProps) => ReactElement) & {
     Footer: typeof CardFooter
 }
 
-function CardRoot({ variant, padding, className, children, ...props }: CardProps) {
-    const classes = cardTheme({ variant, padding })
+function CardRoot({ variant, className, children, ...props }: CardProps) {
+    const classes = cardTheme({ variant })
 
     return (
         <div className={cn(classes.root(), className)} {...props}>
@@ -74,7 +74,7 @@ function CardHeader({ className, children, ...props }: CardHeaderProps) {
     )
 }
 
-function CardTitle({ children, className, as = 'h2', variant = 'heading' }: CardTitleProps) {
+function CardTitle({ children, className, as = 'h2', variant = 'subheading' }: CardTitleProps) {
     const classes = cardTheme()
 
     return (

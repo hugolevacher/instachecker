@@ -82,8 +82,6 @@ export function AppPage() {
                     <OnboardingCarousel
                         slides={controller.guideSlides}
                         baseIndex={controller.slideIndex}
-                        overlayIndex={controller.overlaySlideIndex}
-                        overlayMode={controller.overlayMode}
                         direction={controller.slideDirection}
                         isFirstSlide={controller.slideIndex === 0}
                         isLastSlide={controller.slideIndex === controller.guideSlides.length - 1}
@@ -91,7 +89,6 @@ export function AppPage() {
                         onNext={controller.goToNextSlide}
                         onDone={controller.closeGuide}
                         onJump={controller.jumpToSlide}
-                        onTransitionEnd={controller.handleTransitionEnd}
                     />
                 </Modal.Body>
             </Modal>

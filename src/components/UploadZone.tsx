@@ -30,7 +30,6 @@ export function UploadZone({ isParsing, onBrowse, onFileSelected }: UploadZonePr
     return (
         <Card
             variant="dashed"
-            padding="none"
             role="button"
             tabIndex={0}
             aria-label="Load Instagram ZIP"

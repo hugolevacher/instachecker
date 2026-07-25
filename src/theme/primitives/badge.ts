@@ -6,7 +6,6 @@ export const badgeTheme = tv({
         variant: {
             default: 'border-[#e1306c]/20 bg-[#e1306c]/[0.07] text-[#b11f54]',
             muted: 'border-[#e9e6ec] bg-white text-[#6b6474]',
-            accent: 'border-[#e1306c]/25 bg-[#e1306c]/10 text-[#b11f54]',
         },
     },
     defaultVariants: {
